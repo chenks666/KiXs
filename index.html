@@ -214,7 +214,7 @@
     // 师傅头像（等 ask-panel 加载）
     function fillMentor(w) {
       var el = document.getElementById('avatar-' + (w ? 'west' : 'east'));
-      if (el && window.AskPanel && typeof AskPanel._avatarSvg === 'function') el.innerHTML = AskPanel._avatarSvg(w);
+      if (el && window.AskPanel && typeof AskPanel._avatarSvg === 'function') el.innerHTML = AskPanel._avatarSvg(w ? 'astrology' : 'bazi');
     }
     if (window.AskPanel) { fillMentor(true); fillMentor(false); }
     else { window.addEventListener('load', function() { fillMentor(true); fillMentor(false); }); }
