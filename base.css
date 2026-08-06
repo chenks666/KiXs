@@ -7,20 +7,25 @@
 /* ---------- 0. 主题 token ---------- */
 :root,
 [data-theme="pavilion"] {
-  /* KiXs首页：玄黑 + 金紫 */
-  --bg: #0d0a12;
-  --bg-2: #171120;
-  --panel: #1c1528;
-  --ink: #ece6f2;
-  --ink-2: #b5abc4;
-  --ink-3: #7a7088;
-  --accent: #d4af6e;
-  --accent-2: #a890ff;
-  --line: rgba(168, 144, 255, 0.18);
-  --glow: rgba(168, 144, 255, 0.35);
-  --danger: #d85848;
-  --safe: #6dcbbf;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  /* KiXs · 月蚀塔罗风（深空紫黑 + 薰衣草紫 + 暖金点缀） */
+  --bg: #0f0a1f;
+  --bg-2: #1a1133;
+  --bg-3: #251a44;
+  --panel: #1d1438;
+  --ink: #f0eaf8;
+  --ink-2: #c0b0e0;
+  --ink-3: #8a7fb0;
+  --accent: #b5a8e8;        /* 薰衣草紫（主色） */
+  --accent-bright: #d4c8ff; /* 高亮紫 */
+  --accent-2: #8b7dd8;      /* 深紫（按钮实色） */
+  --accent-gold: #d4af6e;   /* 暖金点缀 */
+  --line: rgba(181, 168, 232, 0.18);
+  --glow: rgba(181, 168, 232, 0.35);
+  --danger: #ff8eb8;
+  --safe: #7ee090;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+  --radius: 20px;
+  --radius-lg: 28px;
 }
 
 /* 命术板块：墨绿古铜 · 罗盘风 */
@@ -202,21 +207,34 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.4; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: none; filter: brightness(1.15); }
 
-/* ---------- 2. 背景装饰：星点 / 粒子 ---------- */
+/* ---------- 2. 背景装饰：星点 / 粒子（月蚀塔罗风） ---------- */
+body {
+  padding-bottom: 80px; /* 适配底部固定 tab bar */
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(139, 125, 216, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(181, 168, 232, 0.12) 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+}
 .starfield {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1px 1px at 34% 62%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 56% 28%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1px 1px at 72% 76%, var(--glow) 50%, transparent 51%),
-    radial-gradient(2px 2px at 88% 40%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1px 1px at 22% 88%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 64% 8%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1px 1px at 92% 90%, var(--glow) 50%, transparent 51%),
-    radial-gradient(1px 1px at 8% 52%, var(--glow) 50%, transparent 51%);
-  opacity: 0.5;
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, rgba(181,168,232,0.6) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 56% 28%, rgba(255,255,255,0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 76%, rgba(212,175,110,0.7) 50%, transparent 51%),
+    radial-gradient(2px 2px at 88% 40%, rgba(255,255,255,0.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 88%, rgba(181,168,232,0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 64% 8%, rgba(255,255,255,0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 90%, rgba(212,175,110,0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 52%, rgba(255,255,255,0.55) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 48% 92%, rgba(181,168,232,0.65) 50%, transparent 51%),
+    radial-gradient(1px 1px at 4% 32%, rgba(255,255,255,0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 56%, rgba(212,175,110,0.6) 50%, transparent 51%);
+  animation: twinkle 6s ease-in-out infinite alternate;
+  opacity: 0.85;
 }
+@keyframes twinkle { from { opacity: 0.65; } to { opacity: 0.95; } }
 
 [data-theme="meihua"] .starfield { display: none; } /* 水墨不落星 */
 
@@ -292,17 +310,22 @@ a:hover { text-decoration: none; filter: brightness(1.15); }
 .hero::after { bottom: 18px; }
 .hero .kicker {
   font-family: "Avenir Next", "DIN", "PingFang SC", sans-serif;
-  font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--accent);
-  text-transform: uppercase; margin-bottom: 16px;
+  font-size: 12px; font-weight: 600; letter-spacing: 4px; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 20px;
+  opacity: 0.9;
 }
 .hero h1 {
   font-family: "Avenir Next", "PingFang SC", "HarmonyOS Sans SC", sans-serif;
   font-weight: 700;
-  font-size: clamp(32px, 5.5vw, 52px);
-  letter-spacing: 2px; margin-bottom: 14px;
-  background: linear-gradient(120deg, var(--ink) 40%, var(--accent));
+  font-size: clamp(36px, 6.5vw, 64px);
+  letter-spacing: 2px; line-height: 1.2; margin-bottom: 18px;
+  color: var(--ink);
+}
+.hero h1 .accent {
+  background: linear-gradient(120deg, var(--accent) 30%, var(--accent-bright));
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 .hero .sub { font-size: 14.5px; color: var(--ink-2); max-width: 620px; margin: 0 auto; letter-spacing: 1px; }
 .hero .meta-line { margin-top: 18px; font-size: 12.5px; color: var(--ink-3); letter-spacing: 2px; }
@@ -318,19 +341,19 @@ a:hover { text-decoration: none; filter: brightness(1.15); }
 .card {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 26px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 .card::before {
   content: ""; position: absolute; inset: 0;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 6%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
   border-radius: inherit; pointer-events: none;
 }
-.card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28); }
+.card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); box-shadow: 0 10px 32px rgba(0, 0, 0, 0.32); transform: translateY(-2px); }
 
 .card .icon {
   font-size: 30px; margin-bottom: 12px; display: block;
@@ -386,26 +409,35 @@ a:hover { text-decoration: none; filter: brightness(1.15); }
 /* ---------- 6. 按钮 / 表单 ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: "STKaiti", "KaiTi", serif;
-  font-size: 15px; letter-spacing: 4px;
-  padding: 12px 36px; border-radius: 4px; cursor: pointer;
+  font-family: "Avenir Next", "PingFang SC", "HarmonyOS Sans SC", sans-serif;
+  font-size: 14px; font-weight: 500; letter-spacing: 2px;
+  padding: 13px 32px; border-radius: 999px; cursor: pointer;
   border: 1px solid var(--accent);
   transition: all 0.3s ease;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  backdrop-filter: blur(8px);
 }
-.btn:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); box-shadow: 0 4px 20px var(--glow); }
+.btn:hover { background: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: 0 6px 24px var(--glow); transform: translateY(-1px); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  color: #fff; border-color: transparent;
+  box-shadow: 0 4px 20px var(--glow);
+}
+.btn.primary:hover { box-shadow: 0 8px 30px var(--glow); transform: translateY(-2px); }
 
 .btn.ghost {
   background: transparent; color: var(--ink-2);
   border-color: var(--line);
   box-shadow: none;
+  backdrop-filter: blur(6px);
 }
-.btn.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
-.btn.small { font-size: 13px; padding: 8px 20px; letter-spacing: 2px; }
+.btn.small { font-size: 13px; padding: 8px 22px; letter-spacing: 1px; }
 
 .form-row { margin-bottom: 18px; }
 .form-row label {
@@ -653,7 +685,7 @@ a:hover { text-decoration: none; filter: brightness(1.15); }
 
 /* ---------- 18. 页脚 ---------- */
 .footer {
-  text-align: center; padding: 26px 20px 40px;
+  text-align: center; padding: 26px 20px 96px;
   font-size: 12px; color: var(--ink-3); letter-spacing: 2px;
 }
 
