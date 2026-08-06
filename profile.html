@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>我的 — KiXs</title>
-  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="base.css">
   <style>
     body { background-image: radial-gradient(circle at 20% 10%, rgba(212,175,110,.05), transparent 40%); }
     /* 个人中心布局（避开底部 tab） */
@@ -430,7 +430,7 @@
   <div class="starfield"></div>
 
   <header class="topbar">
-    <a class="logo" href="../index.html">
+    <a class="logo" href="index.html">
       <span class="seal-mini">K</span>
       <span class="logo-text">KiXs</span>
     </a>
@@ -535,7 +535,7 @@
 
   <!-- iOS 风格底部 Tab Bar -->
   <nav class="bottom-tab" id="bottom-tab">
-    <a href="../index.html" class="tab-item" data-tab="home">
+    <a href="index.html" class="tab-item" data-tab="home">
       <span class="tab-icon">⌂</span>
       <span class="tab-label">首页</span>
     </a>
@@ -553,8 +553,8 @@
     </a>
   </nav>
 
-  <script src="../js/tone-engine.js"></script>
-  <script src="../js/ask-panel.js"></script>
+  <script src="tone-engine.js"></script>
+  <script src="ask-panel.js"></script>
   <script>
     // 统计（本地演示）
     function clearCache() {
@@ -599,7 +599,7 @@
           if (!recs.length) {
             return '<div class="sub-empty"><div class="big">☾</div><div class="t">还没有占卜记录</div>' +
               '<div class="d">去命术或占术板块起一卦、抽一牌，记录会自动保存在这里</div>' +
-              '<a class="go-btn" href="../index.html">去占一卦</a></div>';
+              '<a class="go-btn" href="index.html">去占一卦</a></div>';
           }
           var TRASH = '<svg viewBox="0 0 24 24"><path d="M6 7h12l-1.2 14H7.2L6 7zm3-3h6l1 2H8l1-2zM9.5 10v7h1.2v-7h-1.2zm3.8 0v7h1.2v-7h-1.2z"/></svg>';
           return '<div class="rec-toolbar">' +

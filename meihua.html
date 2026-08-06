@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>梅花易数 — KiXs · 占术</title>
-  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="base.css">
   <style>
     body { background-image: radial-gradient(circle at 15% 20%, rgba(104,144,168,.06), transparent 40%); }
     .num-input { display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
@@ -39,7 +39,7 @@
   <div class="starfield"></div>
 
   <header class="topbar">
-    <a class="logo" href="../index.html"><span class="seal-mini">K</span>KiXs</a>
+    <a class="logo" href="index.html"><span class="seal-mini">K</span>KiXs</a>
     
     <!-- 顶栏师傅：玄机子（中国体系） -->
     <div class="topbar-mentors" id="topbar-mentors">
@@ -87,9 +87,9 @@
 
   <footer class="footer">KiXs · 梅花易数 — 数由心生 · 卦随念动</footer>
 
-  <script src="../js/tone-engine.js"></script>
-  <script src="../js/hexagram-data.js"></script>
-  <script src="../js/meihua.js"></script>
+  <script src="tone-engine.js"></script>
+  <script src="hexagram-data.js"></script>
+  <script src="meihua.js"></script>
   <script>
     /* 渲染卦象（lines 从下往上） */
     function guaHtml(lines, dongYao) {
@@ -154,8 +154,8 @@
 
     ToneEngine.applyBadge();
   </script>
-  <script src="../js/knowledge-base.js"></script>
-  <script src="../js/ask-panel.js"></script>
+  <script src="knowledge-base.js"></script>
+  <script src="ask-panel.js"></script>
   <script>AskPanel.init({ system: 'meihua', hint: '体用是什么' });</script>
 <script>
 /* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
@@ -173,7 +173,7 @@
 
   <!-- iOS 风格底部 Tab Bar -->
   <nav class="bottom-tab" id="bottom-tab">
-    <a href="../index.html" class="tab-item" data-tab="home">
+    <a href="index.html" class="tab-item" data-tab="home">
       <span class="tab-icon">⌂</span>
       <span class="tab-label">首页</span>
     </a>

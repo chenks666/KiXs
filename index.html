@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>KiXs · 命术与占术</title>
-  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body class="grain">
   <div class="starfield"></div>
@@ -63,17 +63,17 @@
       </div>
       <p class="section-desc">以出生之「年月日时」为钥，开启一个人的先天格局：八字论五行进退，紫微观星曜布阵，星盘绘天宫方位。命在盘中，循而观之。</p>
       <div class="section-tools">
-        <a href="pages/bazi.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="bazi.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">八</span>
           <span class="tool-name">八字命理</span>
           <span class="tool-arrow">›</span>
         </a>
-        <a href="pages/ziwei.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="ziwei.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">紫</span>
           <span class="tool-name">紫微斗数</span>
           <span class="tool-arrow">›</span>
         </a>
-        <a href="pages/astrology.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="astrology.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">星</span>
           <span class="tool-name">西方星盘</span>
           <span class="tool-arrow">›</span>
@@ -91,22 +91,22 @@
       </div>
       <p class="section-desc">不问出生，只问当下。以心念为引，起一卦、抽一牌，观此刻之机：塔罗映照心绪，梅花体用分明，六壬传闻事机。事有疑，则占之。</p>
       <div class="section-tools">
-        <a href="pages/tarot.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="tarot.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">塔</span>
           <span class="tool-name">塔罗牌阵</span>
           <span class="tool-arrow">›</span>
         </a>
-        <a href="pages/meihua.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="meihua.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">梅</span>
           <span class="tool-name">梅花易数</span>
           <span class="tool-arrow">›</span>
         </a>
-        <a href="pages/liuyao.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="liuyao.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">六</span>
           <span class="tool-name">六爻卦</span>
           <span class="tool-arrow">›</span>
         </a>
-        <a href="pages/liuren.html" class="tool-item" onclick="event.stopPropagation()">
+        <a href="liuren.html" class="tool-item" onclick="event.stopPropagation()">
           <span class="tool-icon">壬</span>
           <span class="tool-name">大六壬</span>
           <span class="tool-arrow">›</span>
@@ -135,22 +135,22 @@
       <span class="tab-icon">⌂</span>
       <span class="tab-label">首页</span>
     </a>
-    <a href="pages/ming-shu.html" class="tab-item" data-tab="ming">
+    <a href="ming-shu.html" class="tab-item" data-tab="ming">
       <span class="tab-icon">命</span>
       <span class="tab-label">命术</span>
     </a>
-    <a href="pages/zhan-shu.html" class="tab-item" data-tab="zhan">
+    <a href="zhan-shu.html" class="tab-item" data-tab="zhan">
       <span class="tab-icon">占</span>
       <span class="tab-label">占术</span>
     </a>
-    <a href="pages/profile.html" class="tab-item" data-tab="profile">
+    <a href="profile.html" class="tab-item" data-tab="profile">
       <span class="tab-icon">我</span>
       <span class="tab-label">我的</span>
     </a>
   </nav>
 
-  <script src="js/tone-engine.js"></script>
-  <script src="js/ask-panel.js"></script>
+  <script src="tone-engine.js"></script>
+  <script src="ask-panel.js"></script>
   <script>
     // 入场动画
     document.querySelectorAll('.fade-up').forEach((el, i) => {
