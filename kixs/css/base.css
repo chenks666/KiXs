@@ -1,0 +1,996 @@
+/* ============================================================
+   KiXs · Diviner's Pavilion
+   全局主题系统 + 通用组件
+   每板块独立色调：进入板块 = 切换 data-theme
+   ============================================================ */
+
+/* ---------- 0. 主题 token ---------- */
+:root,
+[data-theme="pavilion"] {
+  /* KiXs首页：玄黑 + 金紫 */
+  --bg: #0d0a12;
+  --bg-2: #171120;
+  --panel: #1c1528;
+  --ink: #ece6f2;
+  --ink-2: #b5abc4;
+  --ink-3: #7a7088;
+  --accent: #d4af6e;
+  --accent-2: #a890ff;
+  --line: rgba(168, 144, 255, 0.18);
+  --glow: rgba(168, 144, 255, 0.35);
+  --danger: #d85848;
+  --safe: #6dcbbf;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 命术板块：墨绿古铜 · 罗盘风 */
+[data-theme="ming"] {
+  --bg: #0f1a1a;
+  --bg-2: #142120;
+  --panel: #182726;
+  --ink: #e8f0ea;
+  --ink-2: #a9bfb4;
+  --ink-3: #6e867c;
+  --accent: #e0b555;
+  --accent-2: #6dcbbf;
+  --line: rgba(109, 203, 191, 0.2);
+  --glow: rgba(109, 203, 191, 0.3);
+  --danger: #d85848;
+  --safe: #6dcbbf;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 占术板块：深紫鎏金 */
+[data-theme="zhan"] {
+  --bg: #1a1133;
+  --bg-2: #231741;
+  --panel: #2a1c4d;
+  --ink: #e8dcc0;
+  --ink-2: #b9a8d8;
+  --ink-3: #7d6a9e;
+  --accent: #d4af37;
+  --accent-2: #b98aff;
+  --line: rgba(212, 175, 55, 0.22);
+  --glow: rgba(212, 175, 55, 0.3);
+  --danger: #c44a3c;
+  --safe: #7ee090;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 塔罗：深紫鎏金 · 神秘西风 */
+[data-theme="tarot"] {
+  --bg: #1a1133;
+  --bg-2: #231741;
+  --panel: #2b1d4e;
+  --ink: #e8dcc0;
+  --ink-2: #b9a8d8;
+  --ink-3: #7d6a9e;
+  --accent: #d4af37;
+  --accent-2: #b98aff;
+  --line: rgba(212, 175, 55, 0.22);
+  --glow: rgba(185, 138, 255, 0.32);
+  --danger: #c44a3c;
+  --safe: #7ee090;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 八字：黑金古典 */
+[data-theme="bazi"] {
+  --bg: #0e0b08;
+  --bg-2: #171208;
+  --panel: #1d160e;
+  --ink: #ece4d3;
+  --ink-2: #b3a68a;
+  --ink-3: #776c56;
+  --accent: #d4af6e;
+  --accent-2: #f3d99c;
+  --line: rgba(212, 175, 110, 0.22);
+  --glow: rgba(212, 175, 110, 0.28);
+  --danger: #c44a3c;
+  --safe: #6b9a5c;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 紫微：深蓝紫 · 银河 */
+[data-theme="ziwei"] {
+  --bg: #0a0e2a;
+  --bg-2: #111738;
+  --panel: #161e42;
+  --ink: #e8e4ff;
+  --ink-2: #a9a4d0;
+  --ink-3: #6d6a94;
+  --accent: #ffd66e;
+  --accent-2: #a890ff;
+  --line: rgba(168, 144, 255, 0.24);
+  --glow: rgba(110, 224, 214, 0.3);
+  --danger: #ff8eb8;
+  --safe: #7ee090;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 星盘：深空星图 */
+[data-theme="astrology"] {
+  --bg: #0b1026;
+  --bg-2: #111838;
+  --panel: #16204a;
+  --ink: #eaf0ff;
+  --ink-2: #a8b4d8;
+  --ink-3: #6d7aa0;
+  --accent: #ffd66e;
+  --accent-2: #6ec7ff;
+  --line: rgba(110, 199, 255, 0.24);
+  --glow: rgba(110, 199, 255, 0.3);
+  --danger: #ff8eb8;
+  --safe: #7ee090;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 梅花：素纸水墨（浅色主题） */
+[data-theme="meihua"] {
+  --bg: #f3eee2;
+  --bg-2: #ece4d2;
+  --panel: #faf6e8;
+  --ink: #1a1a1a;
+  --ink-2: #4d463a;
+  --ink-3: #8a8272;
+  --accent: #6890a8;
+  --accent-2: #3d5a6e;
+  --line: rgba(61, 90, 110, 0.22);
+  --glow: rgba(104, 144, 168, 0.2);
+  --danger: #a83018;
+  --safe: #4a7a5c;
+  --shadow: 0 8px 30px rgba(60, 50, 30, 0.12);
+}
+
+/* 六爻：墨黑朱砂 · 竹简 */
+[data-theme="liuyao"] {
+  --bg: #15110c;
+  --bg-2: #1c1711;
+  --panel: #221b13;
+  --ink: #e8dcc8;
+  --ink-2: #b09f84;
+  --ink-3: #786a52;
+  --accent: #b8341e;
+  --accent-2: #c69838;
+  --line: rgba(184, 52, 30, 0.28);
+  --glow: rgba(184, 52, 30, 0.28);
+  --danger: #b8341e;
+  --safe: #5a8a6a;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* 大六壬：藏蓝古铜 · 星盘罗经 */
+[data-theme="liuren"] {
+  --bg: #0c1218;
+  --bg-2: #131c26;
+  --panel: #18222f;
+  --ink: #e6eef7;
+  --ink-2: #a8b8cc;
+  --ink-3: #6e7f94;
+  --accent: #c8a64a;
+  --accent-2: #6db088;
+  --line: rgba(109, 176, 136, 0.22);
+  --glow: rgba(200, 166, 74, 0.25);
+  --danger: #c84838;
+  --safe: #6db088;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- 1. 基础 ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background:
+    radial-gradient(900px 480px at 50% -10%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%),
+    var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  line-height: 1.8;
+  min-height: 100vh;
+  transition: background 0.6s ease, color 0.6s ease;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.4; }
+
+.serif, .mystic {
+  font-family: "STKaiti", "KaiTi", "STSong", "SimSun", serif;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: none; filter: brightness(1.15); }
+
+/* ---------- 2. 背景装饰：星点 / 粒子 ---------- */
+.starfield {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 56% 28%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 76%, var(--glow) 50%, transparent 51%),
+    radial-gradient(2px 2px at 88% 40%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 88%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 64% 8%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 90%, var(--glow) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 52%, var(--glow) 50%, transparent 51%);
+  opacity: 0.5;
+}
+
+[data-theme="meihua"] .starfield { display: none; } /* 水墨不落星 */
+
+.grain::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: 0.35; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* ---------- 3. 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 28px;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar .logo {
+  font-family: "Avenir Next", "DIN", "Helvetica Neue", "PingFang SC", sans-serif;
+  font-size: 19px; font-weight: 700; letter-spacing: 1px; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+.topbar .logo .seal-mini {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px; font-weight: 800; color: var(--bg);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px var(--glow);
+}
+
+.topbar .nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.topbar .nav a {
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 14px; letter-spacing: 2px; padding: 5px 14px; border-radius: 4px;
+  color: var(--ink-2); border-bottom: 1px solid transparent;
+  transition: all 0.25s;
+}
+.topbar .nav a:hover { color: var(--ink); }
+.topbar .nav a.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.topbar .crumb { font-size: 12px; color: var(--ink-3); margin-right: 2px; }
+
+/* 夜语徽标 */
+.night-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; padding: 5px 14px; border-radius: 999px;
+  color: #f4d9a0; background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  cursor: default; white-space: nowrap;
+}
+.night-badge .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #f4c95d; animation: breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100% { opacity: .4; transform: scale(.85);} 50% { opacity: 1; transform: scale(1.15);} }
+.night-badge.hidden { display: none; }
+
+/* ---------- 4. Hero / 板块头 ---------- */
+.hero {
+  padding: 60px 28px 36px; text-align: center; position: relative;
+}
+.hero::before, .hero::after {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+  width: 64px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.hero::before { top: 40px; }
+.hero::after { bottom: 18px; }
+.hero .kicker {
+  font-family: "Avenir Next", "DIN", "PingFang SC", sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: "Avenir Next", "PingFang SC", "HarmonyOS Sans SC", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5.5vw, 52px);
+  letter-spacing: 2px; margin-bottom: 14px;
+  background: linear-gradient(120deg, var(--ink) 40%, var(--accent));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .sub { font-size: 14.5px; color: var(--ink-2); max-width: 620px; margin: 0 auto; letter-spacing: 1px; }
+.hero .meta-line { margin-top: 18px; font-size: 12.5px; color: var(--ink-3); letter-spacing: 2px; }
+
+/* ---------- 5. 卡片 / 栅格 ---------- */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+.grid { display: grid; gap: 20px; padding: 20px 0 60px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 26px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: inherit; pointer-events: none;
+}
+.card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28); }
+
+.card .icon {
+  font-size: 30px; margin-bottom: 12px; display: block;
+  opacity: 0.9;
+}
+.card h3 { font-family: "PingFang SC", "HarmonyOS Sans SC", sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+.card h3 .en { font-size: 11px; color: var(--ink-3); font-weight: 400; margin-left: 8px; letter-spacing: 1px; font-family: inherit; }
+.card p { font-size: 13px; color: var(--ink-2); }
+
+.card.entry { cursor: pointer; }
+.card.entry .go {
+  display: inline-block; margin-top: 14px; font-size: 13px; color: var(--accent);
+  letter-spacing: 2px;
+}
+.card.entry:hover .go { letter-spacing: 3px; }
+
+/* 板块大卡（首页双板块入口） */
+.big-entry {
+  border-radius: 16px; padding: 42px 34px; cursor: pointer;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(560px 280px at 18% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent),
+    var(--panel);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.big-entry::before {
+  content: ""; position: absolute; inset: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: inherit; pointer-events: none;
+}
+.big-entry:hover { box-shadow: 0 16px 50px var(--glow); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.big-entry .tag {
+  display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 2px;
+  padding: 4px 16px; border-radius: 2px; margin-bottom: 18px;
+  color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 999px;
+}
+.big-entry h2 { font-family: "Avenir Next", "PingFang SC", "HarmonyOS Sans SC", sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+.big-entry .en { font-size: 11px; letter-spacing: 3px; color: var(--ink-3); margin-bottom: 16px; }
+.big-entry p { font-size: 13.5px; color: var(--ink-2); max-width: 420px; }
+.big-entry .items { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--ink-2);
+}
+.chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--ink-2);
+}
+
+/* ---------- 6. 按钮 / 表单 ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 15px; letter-spacing: 4px;
+  padding: 12px 36px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--accent);
+  transition: all 0.3s ease;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.btn:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); box-shadow: 0 4px 20px var(--glow); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+.btn.ghost {
+  background: transparent; color: var(--ink-2);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+.btn.small { font-size: 13px; padding: 8px 20px; letter-spacing: 2px; }
+
+.form-row { margin-bottom: 18px; }
+.form-row label {
+  display: block; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; letter-spacing: 1px;
+}
+.form-row label b { color: var(--accent); }
+.input, select.input, textarea.input {
+  width: 100%; padding: 12px 16px; font-size: 15px;
+  background: color-mix(in srgb, var(--bg) 60%, var(--panel));
+  color: var(--ink); border: 1px solid var(--line); border-radius: 12px;
+  font-family: inherit; outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* 性别/单选小组件（全局） */
+.gender-pick { display: flex; gap: 12px; }
+.gender-opt {
+  flex: 1; padding: 12px; text-align: center; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--bg-2); font-size: 14px; color: var(--ink-2);
+  transition: all 0.25s; user-select: none;
+}
+.gender-opt:hover { border-color: var(--accent-2); color: var(--ink); }
+.gender-opt.sel {
+  border-color: var(--accent); color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-2));
+  box-shadow: 0 0 14px var(--glow);
+}
+
+/* ---------- 7. 徽章 / 标签 ---------- */
+.badge {
+  display: inline-block; font-size: 12px; padding: 3px 12px;
+  border-radius: 999px; border: 1px solid var(--line);
+  color: var(--ink-2); margin: 0 6px 6px 0; vertical-align: middle;
+}
+.badge.hot { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+.badge.mute { opacity: 0.7; }
+
+/* ---------- 8. 印章 ---------- */
+.seal {
+  display: inline-block; font-family: "STKaiti", "KaiTi", serif;
+  width: 64px; height: 64px; line-height: 64px; text-align: center;
+  border-radius: 8px; font-size: 22px; letter-spacing: 2px;
+  color: var(--bg);
+  background: linear-gradient(140deg, var(--danger), #a83018);
+  box-shadow: 0 4px 18px rgba(184, 52, 30, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.14);
+  transform: rotate(-4deg);
+  position: relative;
+}
+.seal::after {
+  content: ""; position: absolute; inset: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 4px;
+}
+.seal.round { border-radius: 50%; }
+.seal.round::after { border-radius: 50%; inset: 6px; }
+
+/* ---------- 9. 解读区 ---------- */
+.reading {
+  margin: 26px 0; padding: 28px 30px;
+  background: color-mix(in srgb, var(--bg-2) 65%, var(--panel));
+  border: 1px solid var(--line); border-radius: 18px;
+  position: relative;
+}
+.reading .label {
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 3px; color: var(--accent);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.reading .label::before {
+  content: ""; width: 18px; height: 1px;
+  background: var(--accent); opacity: 0.6;
+}
+.reading .txt { font-size: 14.5px; color: var(--ink); white-space: pre-line; }
+.reading .txt .gentle { color: var(--ink-2); font-size: 14px; font-style: italic; }
+
+.divider {
+  display: flex; align-items: center; gap: 14px; margin: 30px 0; color: var(--ink-3);
+  font-size: 12px; letter-spacing: 4px;
+}
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ---------- 10. 幕布（塔罗揭开机制） ---------- */
+.curtain-stage {
+  position: relative; margin: 26px 0;
+  min-height: 220px; overflow: hidden; border-radius: 18px;
+}
+.curtain-content { padding: 28px 30px; position: relative; z-index: 1; }
+.curtain-content.hidden-content { opacity: 0; filter: blur(10px); transform: translateY(8px); transition: all 1s ease 0.35s; }
+.curtain-stage.unveiled .curtain-content.hidden-content { opacity: 1; filter: blur(0); transform: none; }
+
+.curtain {
+  position: absolute; top: 0; bottom: 0; z-index: 5;
+  width: 50.5%;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(400px 200px at 50% 20%, rgba(212, 175, 55, 0.10), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent-2) 8%, var(--panel)), var(--bg-2));
+  border: 1px solid var(--line);
+  transition: transform 1.5s cubic-bezier(0.7, 0, 0.25, 1), opacity 1.2s ease;
+}
+.curtain.left { left: 0; border-radius: 18px 0 0 18px; }
+.curtain.right { right: 0; border-radius: 0 18px 18px 0; }
+.curtain-stage.unveiled .curtain.left { transform: translateX(-101%); }
+.curtain-stage.unveiled .curtain.right { transform: translateX(101%); }
+.curtain-stage.unveiled .curtain { opacity: 0; pointer-events: none; }
+
+.curtain .veil-call { text-align: center; cursor: pointer; user-select: none; padding: 0 20px; }
+.curtain .veil-call .sigil {
+  font-size: 44px; margin-bottom: 12px; display: block;
+  animation: sigil 3s ease-in-out infinite;
+}
+@keyframes sigil { 0%,100% { transform: rotate(0) scale(1); text-shadow: 0 0 18px var(--glow);} 50% { transform: rotate(8deg) scale(1.08);} }
+.curtain .veil-call .t1 { font-family: "PingFang SC", "HarmonyOS Sans SC", sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 3px; color: var(--ink); }
+.curtain .veil-call .t2 { font-size: 12px; color: var(--ink-3); margin-top: 6px; letter-spacing: 2px; }
+.curtain .veil-call.hint-shake { animation: hintShake 1.2s ease infinite; }
+@keyframes hintShake { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-5px);} }
+
+/* 幕布暗纹（布帘质感） */
+.curtain::before {
+  content: ""; position: absolute; inset: 0; opacity: 0.35;
+  background: repeating-linear-gradient(90deg, transparent 0 26px, rgba(255,255,255,0.03) 26px 28px);
+}
+
+/* ---------- 11. 塔罗牌 ---------- */
+.tarot-hand { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; padding: 24px 0; }
+.tarot-card {
+  width: 128px; aspect-ratio: 2 / 3.4; position: relative; perspective: 900px; cursor: pointer;
+}
+.tarot-card .face {
+  position: absolute; inset: 0; border-radius: 12px;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d; backface-visibility: hidden;
+  display: grid; place-items: center;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.tarot-card .back {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.12), transparent 60%),
+    repeating-linear-gradient(45deg, var(--panel) 0 12px, #241b44 12px 24px);
+}
+.tarot-card .back::before {
+  content: "☽"; font-size: 30px; color: var(--accent);
+  display: grid; place-items: center; width: 52px; height: 52px;
+  border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 50%;
+}
+.tarot-card .front { transform: rotateY(180deg); background: linear-gradient(160deg, var(--panel), #150d2e); padding: 12px; }
+.tarot-card .front .num { font-size: 11px; color: var(--accent); letter-spacing: 2px; margin-bottom: 6px; }
+.tarot-card .front .name { font-family: "STKaiti", "KaiTi", serif; font-size: 17px; color: var(--ink); text-align: center; }
+.tarot-card .front .rev { color: var(--danger); font-size: 12px; }
+.tarot-card.flipped .face { transform: rotateY(180deg); }
+.tarot-card.deal { animation: dealIn 0.6s cubic-bezier(0.2, 0.8, 0.3, 1.2) backwards; }
+@keyframes dealIn { from { opacity: 0; transform: translateY(40px) scale(0.7) rotate(-6deg);} to { opacity: 1; transform: none;} }
+
+/* ---------- 12. 卦爻 / 梅花 ---------- */
+.gua-row { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; padding: 20px 0; }
+.gua-box { text-align: center; }
+.gua-box .name { font-family: "STKaiti", "KaiTi", serif; font-size: 20px; letter-spacing: 3px; margin-bottom: 10px; }
+.gua-box .sub { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
+.yao { display: block; margin: 0 auto 7px; }
+.yao.yang { width: 74px; height: 12px; background: var(--ink); border-radius: 2px; box-shadow: 0 0 8px var(--glow); }
+.yao.yin { width: 74px; height: 12px; display: flex; gap: 14px; }
+.yao.yin i { flex: 1; background: var(--ink); border-radius: 2px; height: 12px; box-shadow: 0 0 8px var(--glow); }
+.yao.dong { position: relative; }
+.yao.dong::after {
+  content: "◯"; position: absolute; right: -22px; top: -2px;
+  color: var(--danger); font-size: 14px;
+}
+.yao-line-static { display: flex; flex-direction: column; align-items: center; }
+
+/* 六爻竹简 */
+.bamboo {
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(198, 152, 56, 0.05) 2px 4px);
+  border-left: 3px solid rgba(198, 152, 56, 0.5); border-right: 3px solid rgba(198, 152, 56, 0.5);
+  border-radius: 6px;
+}
+
+/* ---------- 13. 四柱表（八字） ---------- */
+.pillar-table { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 20px 0; }
+.pillar { text-align: center; padding: 18px 10px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--line); }
+.pillar .p-name { font-size: 12px; letter-spacing: 3px; color: var(--accent); margin-bottom: 8px; }
+.pillar .ganzhi { font-family: "STKaiti", "KaiTi", serif; font-size: 26px; letter-spacing: 4px; margin-bottom: 8px; }
+.pillar .wu { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.wu-dot { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; border: 1px solid var(--line); }
+.wu-dot.wu-jin { background: rgba(243, 217, 156, 0.14); color: #f3d99c; }
+.wu-dot.wu-mu { background: rgba(107, 154, 92, 0.18); color: #8ec27a; }
+.wu-dot.wu-shui { background: rgba(60, 110, 160, 0.2); color: #6ea8d8; }
+.wu-dot.wu-huo { background: rgba(196, 74, 60, 0.16); color: #e08a7a; }
+.wu-dot.wu-tu { background: rgba(190, 150, 70, 0.16); color: #d9b45a; }
+
+.bar { height: 8px; border-radius: 99px; background: var(--bg-2); overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+/* ---------- 14. 九宫（紫微 / 通用盘格） ---------- */
+.palace-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 20px 0; }
+.palace {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px; min-height: 130px;
+}
+.palace .p-title { font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.palace .p-title .star { font-size: 11px; color: var(--accent); }
+.palace .p-body { font-size: 12px; color: var(--ink); margin-top: 8px; line-height: 1.9; }
+.palace .p-body .s { display: block; }
+.palace .p-body .s.lu { color: var(--accent); }      /* 化禄 */
+.palace .p-body .s.quan { color: #ff8eb8; }          /* 化权 */
+.palace .p-body .s.ke { color: #6ee0d6; }            /* 化科 */
+.palace .p-body .s.ji { color: #8a8a9a; }            /* 化忌 */
+.palace.center { display: grid; place-items: center; text-align: center; }
+.palace.center .p-title { justify-content: center; }
+
+/* ---------- 15. 星盘（简化） ---------- */
+.zodiac-ring { position: relative; width: min(420px, 88vw); aspect-ratio: 1; margin: 10px auto; }
+.zodiac-ring svg { width: 100%; height: 100%; }
+.sign-card { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--line); margin-bottom: 12px; }
+.sign-card .glyph { font-size: 30px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+.sign-card .s-name { font-family: "STKaiti", "KaiTi", serif; font-size: 18px; letter-spacing: 2px; }
+.sign-card .s-sub { font-size: 12px; color: var(--ink-3); }
+
+/* ---------- 16. 总结三句 ---------- */
+.summary-box {
+  margin-top: 26px; padding: 26px 30px; border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel));
+}
+.summary-box .sum-title { font-family: "PingFang SC", "HarmonyOS Sans SC", sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 2px; color: var(--accent); margin-bottom: 14px; }
+.summary-box ul { list-style: none; }
+.summary-box li { font-size: 15px; color: var(--ink); padding: 7px 0; padding-left: 22px; position: relative; }
+.summary-box li::before { content: "❖"; position: absolute; left: 0; color: var(--accent); }
+
+/* ---------- 17. 免责声明 ---------- */
+.disclaimer {
+  margin: 40px auto 26px; max-width: 1080px;
+  padding: 14px 22px; border-radius: 12px;
+  border: 1px dashed var(--danger); color: var(--ink-3);
+  font-size: 12.5px; line-height: 1.8;
+}
+.disclaimer b { color: var(--danger); }
+
+/* ---------- 18. 页脚 ---------- */
+.footer {
+  text-align: center; padding: 26px 20px 40px;
+  font-size: 12px; color: var(--ink-3); letter-spacing: 2px;
+}
+
+/* ---------- 19. 动画 ---------- */
+.fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.in { opacity: 1; transform: none; }
+.delay-1 { transition-delay: 0.12s; }
+.delay-2 { transition-delay: 0.24s; }
+.delay-3 { transition-delay: 0.36s; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 3px solid var(--line); border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite; margin: 18px auto;
+}
+
+/* 结果区进出场 */
+.result-enter { animation: resultIn 0.8s cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+@keyframes resultIn { from { opacity: 0; transform: translateY(26px) scale(0.98);} to { opacity: 1; transform: none;} }
+
+/* ---------- 20. 响应式 ---------- */
+@media (max-width: 860px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .pillar-table { grid-template-columns: repeat(2, 1fr); }
+  .palace-grid { grid-template-columns: repeat(2, 1fr); }
+  .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+}
+
+@media (max-width: 560px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .hero { padding: 44px 18px 30px; }
+  .big-entry { padding: 30px 22px; }
+  .reading, .curtain-content { padding: 22px 18px; }
+  .pillar-table { grid-template-columns: 1fr 1fr; }
+  .tarot-card { width: 104px; }
+  .night-badge { font-size: 11px; padding: 4px 10px; }
+  .topbar .nav a { font-size: 12px; padding: 5px 10px; }
+}
+
+/* ============================================================
+   iOS 风格：Hero 启动页 / 板块大卡片 / 工具列表 / 底部 Tab Bar
+   ============================================================ */
+
+/* Hero 启动页（iOS App Launch） */
+.hero {
+  padding: 40px 24px 24px;
+  text-align: center;
+  position: relative;
+}
+.hero .hero-time {
+  font-size: 11px; letter-spacing: 1px; color: var(--ink-3);
+  font-weight: 500; margin-bottom: 22px;
+}
+.hero .app-icon {
+  width: 88px; height: 88px; border-radius: 22px;
+  background: linear-gradient(135deg, #1a1430 0%, #2a1a4d 60%, #3d2070 100%);
+  box-shadow: 0 12px 40px rgba(168, 144, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+  margin: 0 auto 18px;
+  display: grid; place-items: center;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 56px; font-weight: 800;
+  color: #d4af6e;
+  text-shadow: 0 2px 8px rgba(212, 175, 110, 0.4);
+}
+.hero h1 {
+  font-family: "Avenir Next", "PingFang SC", "HarmonyOS Sans SC", sans-serif;
+  font-size: 34px; font-weight: 700; letter-spacing: 2px;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .tagline {
+  font-size: 14px; font-weight: 500; color: var(--accent);
+  letter-spacing: 1px; margin-bottom: 14px;
+}
+.hero .hero-sub {
+  font-size: 13px; color: var(--ink-2);
+  line-height: 1.8; max-width: 480px; margin: 0 auto;
+  letter-spacing: 0.5px;
+}
+
+/* 首页主区域（避开底部 tab） */
+.home-main {
+  max-width: 760px; margin: 0 auto;
+  padding: 0 18px 100px; /* 底部留出 tab bar 空间 */
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+/* 板块大卡片（iOS 设置列表风格） */
+.section-card {
+  background: var(--panel);
+  border-radius: 20px;
+  padding: 22px 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.section-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.section-card:active { transform: scale(0.99); }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.section-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 22px; font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--bg);
+  flex-shrink: 0;
+}
+.section-card.zhan .section-icon { background: linear-gradient(135deg, var(--accent-2), var(--accent)); }
+.section-title h2 {
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  font-size: 22px; font-weight: 700; letter-spacing: 1px;
+  color: var(--ink); margin: 0 0 2px;
+}
+.section-title p {
+  font-size: 11px; color: var(--ink-3);
+  letter-spacing: 1.5px; margin: 0;
+  font-family: "Avenir Next", monospace;
+}
+.section-desc {
+  font-size: 13px; color: var(--ink-2);
+  line-height: 1.75; margin: 0 0 16px;
+  padding: 0 2px;
+}
+
+/* 工具列表（iOS 设置项风格） */
+.section-tools {
+  background: var(--bg-2);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.tool-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  text-decoration: none; color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s;
+}
+.tool-item:last-child { border-bottom: none; }
+.tool-item:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.tool-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  display: grid; place-items: center;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 15px; font-weight: 600; color: var(--accent);
+  flex-shrink: 0;
+}
+.tool-name {
+  flex: 1; font-size: 14px; font-weight: 500;
+  font-family: "PingFang SC", "HarmonyOS Sans SC", sans-serif;
+  letter-spacing: 0.5px;
+}
+.tool-arrow {
+  font-size: 18px; color: var(--ink-3);
+  font-family: "Avenir Next", sans-serif;
+}
+
+/* AI 问师 CTA */
+.ask-cta {
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent-2) 10%, transparent));
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 20px rgba(212, 175, 110, 0.15);
+}
+.ask-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212, 175, 110, 0.25); }
+.ask-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid; place-items: center;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: 22px; font-weight: 600; color: var(--bg);
+  flex-shrink: 0;
+}
+.ask-content { flex: 1; }
+.ask-content h3 {
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  font-size: 16px; font-weight: 600; letter-spacing: 1px;
+  color: var(--ink); margin: 0 0 2px;
+}
+.ask-content p {
+  font-size: 12px; color: var(--ink-2);
+  margin: 0; letter-spacing: 0.5px;
+}
+.ask-arrow {
+  font-size: 20px; color: var(--accent);
+  font-family: "Avenir Next", sans-serif;
+}
+
+/* 底部 Tab Bar（iOS App 风格） */
+.bottom-tab {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; justify-content: space-around;
+  padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
+}
+.tab-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 6px;
+  text-decoration: none; color: var(--ink-3);
+  border-radius: 12px;
+  transition: color 0.2s, transform 0.15s;
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  position: relative;
+}
+.tab-item:hover { color: var(--ink-2); }
+.tab-item.active { color: var(--accent); }
+.tab-item.active::before {
+  content: ''; position: absolute;
+  top: -1px; left: 50%; transform: translateX(-50%);
+  width: 30px; height: 2px; border-radius: 0 0 2px 2px;
+  background: var(--accent);
+}
+.tab-icon {
+  font-size: 18px; font-weight: 600;
+  font-family: "STKaiti", "KaiTi", serif;
+  line-height: 1;
+}
+.tab-icon-ask {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--bg);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(212, 175, 110, 0.4);
+  margin-top: -12px;
+}
+.tab-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.5px;
+}
+
+/* 旧的 .big-entry / .grid-2 兼容（占术/命术板块页仍用） */
+.big-entry {
+  background: var(--panel);
+  border-radius: 20px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.big-entry:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+/* ============================================================
+   问师选择（首页/个人中心通用）：两位师傅并排卡片
+   ============================================================ */
+.mentor-section { margin-bottom: 2px; }
+.mentor-section .profile-label {
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px;
+  color: var(--ink-3); margin: 0 6px 10px;
+}
+.mentor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mentor-card {
+  background: var(--panel);
+  border-radius: 20px; border: 1px solid var(--line);
+  padding: 20px 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 4px 24px rgba(0,0,0,.25);
+  transition: transform .25s, box-shadow .25s;
+}
+.mentor-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.35); }
+.mentor-card:active { transform: scale(.98); }
+.mentor-avatar {
+  width: 84px; height: 84px; border-radius: 50%;
+  border: 2px solid rgba(212,175,110,.45);
+  overflow: hidden; margin: 0 auto 12px;
+  box-shadow: 0 6px 20px var(--glow);
+  background: var(--bg-2);
+}
+.mentor-card.west .mentor-avatar { border-color: rgba(168,144,255,.5); }
+.mentor-card .m-name {
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+  font-size: 17px; font-weight: 700; letter-spacing: 1px; color: var(--ink);
+}
+.mentor-card .m-title { font-size: 11px; color: var(--ink-3); margin: 4px 0 10px; letter-spacing: 1px; }
+.mentor-card .m-tags { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.mentor-card .m-tags span {
+  font-size: 10px; padding: 2px 10px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--ink-2);
+}
+.mentor-card .m-btn {
+  display: inline-block; margin-top: 12px;
+  font-size: 12px; padding: 6px 22px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--bg); font-weight: 600; letter-spacing: 2px;
+}
+@media (max-width: 720px) {
+  .mentor-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   顶栏师傅快捷入口（命术/占术页左上角）
+   ============================================================ */
+.topbar-mentors {
+  display: flex; align-items: center; gap: 8px;
+  margin-right: 4px;
+}
+.tb-mentor {
+  width: 32px; height: 32px; border-radius: 50%;
+  overflow: hidden; cursor: pointer;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 2px 8px var(--glow);
+  transition: transform .2s, border-color .2s;
+  background: var(--bg-2);
+  flex-shrink: 0;
+}
+.tb-mentor:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tb-mentor .tb-avatar { display: block; width: 100%; height: 100%; }
+.tb-mentor .tb-avatar svg { width: 100%; height: 100%; display: block; }
+
+/* 图标统一居中（防偏移） */
+.tab-icon, .tool-icon, .section-icon, .ask-icon, .menu-icon, .contact-icon,
+.seal-mini, .app-icon, .profile-avatar, .rec-check, .ios-switch::after {
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tb-avatar, .mentor-avatar, .profile-avatar { line-height: 0; }
+.tb-avatar svg, .mentor-avatar svg { display: block; margin: 0 auto; }
+
+/* 师傅性别对应：中国=男(金) / 西方=女(紫) */
+.tb-mentor.west { border-color: rgba(168,144,255,.6); }
+.tb-mentor.east { border-color: rgba(212,175,110,.6); }
