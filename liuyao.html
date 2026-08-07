@@ -186,8 +186,10 @@
   window.addEventListener("error", function(e){
     if (shown) return; shown = true;
     var d = document.createElement("div");
-    d.style.cssText = "position:fixed;left:12px;bottom:12px;z-index:99999;max-width:420px;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:12px;line-height:1.7;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;";
-    d.textContent = "⚠ 页面脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "");
+    d.style.cssText = "position:fixed;left:12px;bottom:96px;z-index:99999;max-width:520px;max-height:60vh;overflow:auto;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:11px;line-height:1.6;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;word-break:break-all;";
+    var stack = (e.error && e.error.stack) ? e.error.stack : "";
+    d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? ("
+" + stack) : "");
     document.body.appendChild(d);
   });
 })();
