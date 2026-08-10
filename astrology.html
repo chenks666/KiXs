@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>出生星盘 — KiXs · 命术</title>
-  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../base.css">
   <style>
     .chart-form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
     @media (max-width: 720px) { .chart-form { grid-template-columns: 1fr 1fr; } }
@@ -188,8 +188,8 @@
 
   <footer class="footer">KiXs · 星盘 — 天宫有图 · 星在人手</footer>
 
-  <script src="../js/tone-engine.js"></script>
-  <script src="../js/astrology.js"></script>
+  <script src="../tone-engine.js"></script>
+  <script src="../astrology.js"></script>
   <script>
     const A = AstrologyEngine;
     const HOUR_MID = { 子: 0, 丑: 2, 寅: 4, 卯: 6, 辰: 8, 巳: 10, 午: 12, 未: 14, 申: 16, 酉: 18, 戌: 20, 亥: 22 };
@@ -562,8 +562,8 @@
 
     ToneEngine.applyBadge();
   </script>
-  <script src="../js/knowledge-base.js"></script>
-  <script src="../js/ask-panel.js"></script>
+  <script src="../knowledge-base.js"></script>
+  <script src="../ask-panel.js"></script>
   <script>AskPanel.init({ system: 'astrology', hint: '上升是什么' });</script>
 <script>
 /* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
@@ -574,9 +574,8 @@
     var d = document.createElement("div");
     d.style.cssText = "position:fixed;left:12px;bottom:96px;z-index:99999;max-width:520px;max-height:60vh;overflow:auto;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:11px;line-height:1.6;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;word-break:break-all;";
     var stack = (e.error && e.error.stack) ? e.error.stack : "";
-    d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? ("
-" + stack) : "");
-    document.body.appendChild(d);
+        d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? (" | " + stack) : "");
+        document.body.appendChild(d);
   });
 })();
 </script>
@@ -649,5 +648,6 @@
     if (window.AskPanel) renderTopbarAvatars();
     window.addEventListener('load', renderTopbarAvatars);
   </script>
+<script src="../delight.js"></script>
 </body>
 </html>

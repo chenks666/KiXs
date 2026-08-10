@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>塔罗牌阵 — KiXs · 占术</title>
-  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="../base.css">
   <style>
     .step { display: none; }
     .step.on { display: block; animation: resultIn 0.5s ease both; }
@@ -155,6 +155,12 @@
   </header>
 
   <section class="hero">
+    <!-- 中央印记：板块徽印 + 彩蛋交互目标（点击三次触发流星雨） -->
+    <div class="hero-mark tarot-mark" id="hero-mark" title="轻触三次">
+      <span class="mark-ring"></span>
+      <span class="mark-symbol">✶</span>
+      <span class="mark-hint">轻触三次</span>
+    </div>
     <div class="kicker">Tarot · 占术</div>
     <h1>塔罗牌阵</h1>
     <p class="sub">78 张牌已洗好，此刻全部牌背朝上、位置随机。默念所问，凭直觉点选——牌面只有翻起时，你才知道抽到了什么。</p>
@@ -233,8 +239,8 @@
 
   <footer class="footer">KiXs · 塔罗 — 牌背朝上 · 心诚则灵</footer>
 
-  <script src="tone-engine.js"></script>
-  <script src="tarot.js"></script>
+  <script src="../tone-engine.js"></script>
+  <script src="../tarot.js"></script>
   <script>
     const T = TarotEngine;
     let currentSpread = 'three';
@@ -386,6 +392,12 @@
       const stage = document.getElementById('curtain-stage');
       if (stage.classList.contains('unveiled')) return;
       stage.classList.add('unveiled');
+      /* 神谕浮现（仪式感：揭幕瞬间 "神谕已启" 缓缓浮现又隐去） */
+      const oracle = document.createElement('div');
+      oracle.className = 'oracle';
+      oracle.textContent = '☉ 神谕已启 ☾';
+      stage.appendChild(oracle);
+      setTimeout(() => { if (oracle.parentNode) oracle.parentNode.removeChild(oracle); }, 2800);
       setTimeout(() => {
         const zone = document.getElementById('summary-zone');
         const question = document.getElementById('question').value.trim();
@@ -422,8 +434,8 @@
 
     ToneEngine.applyBadge();
   </script>
-  <script src="knowledge-base.js"></script>
-  <script src="ask-panel.js"></script>
+  <script src="../knowledge-base.js"></script>
+  <script src="../ask-panel.js"></script>
   <script>AskPanel.init({ system: 'tarot', hint: '恋人牌是什么意思' });</script>
 <script>
 /* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
@@ -434,9 +446,8 @@
     var d = document.createElement("div");
     d.style.cssText = "position:fixed;left:12px;bottom:96px;z-index:99999;max-width:520px;max-height:60vh;overflow:auto;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:11px;line-height:1.6;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;word-break:break-all;";
     var stack = (e.error && e.error.stack) ? e.error.stack : "";
-    d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? ("
-" + stack) : "");
-    document.body.appendChild(d);
+        d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? (" | " + stack) : "");
+        document.body.appendChild(d);
   });
 })();
 </script>
@@ -509,5 +520,6 @@
     if (window.AskPanel) renderTopbarAvatars();
     window.addEventListener('load', renderTopbarAvatars);
   </script>
+<script src="../delight.js"></script>
 </body>
 </html>

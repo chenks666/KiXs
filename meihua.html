@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>梅花易数 — KiXs · 占术</title>
-  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="../base.css">
   <style>
     body { background-image: radial-gradient(circle at 15% 20%, rgba(104,144,168,.06), transparent 40%); }
     .num-input { display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
@@ -87,9 +87,9 @@
 
   <footer class="footer">KiXs · 梅花易数 — 数由心生 · 卦随念动</footer>
 
-  <script src="tone-engine.js"></script>
-  <script src="hexagram-data.js"></script>
-  <script src="meihua.js"></script>
+  <script src="../tone-engine.js"></script>
+  <script src="../hexagram-data.js"></script>
+  <script src="../meihua.js"></script>
   <script>
     /* 渲染卦象（lines 从下往上） */
     function guaHtml(lines, dongYao) {
@@ -154,8 +154,8 @@
 
     ToneEngine.applyBadge();
   </script>
-  <script src="knowledge-base.js"></script>
-  <script src="ask-panel.js"></script>
+  <script src="../knowledge-base.js"></script>
+  <script src="../ask-panel.js"></script>
   <script>AskPanel.init({ system: 'meihua', hint: '体用是什么' });</script>
 <script>
 /* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
@@ -166,9 +166,8 @@
     var d = document.createElement("div");
     d.style.cssText = "position:fixed;left:12px;bottom:96px;z-index:99999;max-width:520px;max-height:60vh;overflow:auto;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:11px;line-height:1.6;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;word-break:break-all;";
     var stack = (e.error && e.error.stack) ? e.error.stack : "";
-    d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? ("
-" + stack) : "");
-    document.body.appendChild(d);
+        d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? (" | " + stack) : "");
+        document.body.appendChild(d);
   });
 })();
 </script>
@@ -241,5 +240,6 @@
     if (window.AskPanel) renderTopbarAvatars();
     window.addEventListener('load', renderTopbarAvatars);
   </script>
+<script src="../delight.js"></script>
 </body>
 </html>
