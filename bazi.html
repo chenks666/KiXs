@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
   <title>八字命理 — KiXs · 命术</title>
-  <link rel="stylesheet" href="../base.css">
+  <link rel="stylesheet" href="base.css">
   <style>
     .wu-legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-size: 12px; color: var(--ink-3); margin-top: 8px; }
     .strength-box { margin-top: 16px; padding: 14px 18px; border-radius: 12px; background: var(--bg-2); border: 1px solid var(--line); font-size: 13px; color: var(--ink-2); }
@@ -158,8 +158,8 @@
 
   <footer class="footer">KiXs · 八字 — 知命不认命 · 顺势而为</footer>
 
-  <script src="../tone-engine.js"></script>
-  <script src="../bazi.js"></script>
+  <script src="tone-engine.js"></script>
+  <script src="bazi.js"></script>
   <script>
     const GAN = BaZiEngine.GAN, ZHI = BaZiEngine.ZHI;
     const WU_CLS = { 木: 'wu-mu', 火: 'wu-huo', 土: 'wu-tu', 金: 'wu-jin', 水: 'wu-shui' };
@@ -338,8 +338,8 @@
 
     ToneEngine.applyBadge();
   </script>
-  <script src="../knowledge-base.js"></script>
-  <script src="../ask-panel.js"></script>
+  <script src="knowledge-base.js"></script>
+  <script src="ask-panel.js"></script>
   <script>AskPanel.init({ system: 'bazi', hint: '十神是什么' });</script>
 <script>
 /* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
@@ -424,6 +424,6 @@
     if (window.AskPanel) renderTopbarAvatars();
     window.addEventListener('load', renderTopbarAvatars);
   </script>
-<script src="../delight.js"></script>
+<script src="delight.js"></script>
 </body>
 </html>
