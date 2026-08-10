@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="pavilion">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231a1133'/><text x='32' y='46' font-size='38' font-weight='800' text-anchor='middle' fill='%23b5a8e8' font-family='Arial, sans-serif'>K</text></svg>">
+  <title>KiXs · ECLIPSE TAROT</title>
+  <link rel="stylesheet" href="base.css">
+  <style>
+    /* 首页专属：占卜小仪式（圆形魔法阵）+ 今日能量卡 */
+    .sigil {
+      width: 200px; height: 200px; margin: 20px auto 10px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(157,142,201,0.14) 0%, transparent 62%);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      box-shadow: inset 0 0 32px rgba(157,142,201,0.08);
+      position: relative;
+    }
+    .sigil::before {
+      content: ""; position: absolute; inset: 14px;
+      border: 1px dashed color-mix(in srgb, var(--accent) 22%, transparent);
+      border-radius: 50%;
+    }
+    .sigil::after {
+      content: "☾"; position: absolute; inset: 0; display: grid; place-items: center;
+      color: var(--accent); font-size: 38px; font-weight: 300;
+    }
+    .sigil-wrap { position: relative; }
+    /* 今日一签（替代能量分数卡） */
+    .omen-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 18px 0 36px; }
+    .omen-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      position: relative;
+    }
+    .omen-card:hover { border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+    .omen-card .o-area {
+      font-family: "STSong", "Songti SC", serif;
+      font-size: 12px; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px;
+    }
+    .omen-card .o-verse {
+      font-family: "STSong", "Songti SC", serif;
+      font-size: 15px; color: var(--ink); line-height: 1.9; margin-bottom: 10px;
+    }
+    .omen-card .o-hint { font-size: 12px; color: var(--ink-3); line-height: 1.7; }
+    .omen-card .o-seal {
+      display: inline-block; margin-top: 12px;
+      font-family: "STKaiti", "KaiTi", serif; font-size: 10px;
+      padding: 2px 8px; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      border-radius: 2px; color: var(--accent); letter-spacing: 1px;
+    }
+    @media (max-width: 720px) { .omen-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="grain">
+  <div class="starfield"></div>
+
+  <!-- 顶栏（月蚀塔罗风 logo + 居中导航 + 右侧 CTA） -->
+  <header class="topbar">
+    <a class="logo" href="index.html">
+      <span class="seal-mini" style="background:linear-gradient(135deg,#1a1133,#3a2865);">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#b5a8e8" stroke-width="1.6">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </span>
+      <span class="logo-text">KiXs</span>
+      <span style="font-size:10px;letter-spacing:3px;color:var(--ink-3);font-family:'Avenir Next',sans-serif;margin-left:6px;">ECLIPSE TAROT</span>
+    </a>
+    <div class="topbar-right">
+      <span class="night-badge hidden"><span class="dot"></span><span class="label-text">夜语</span></span>
+    </div>
+  </header>
+
+  <!-- Hero（月蚀塔罗风：kicker + 双色大标题 + 双按钮 + 魔法阵） -->
+  <section class="hero fade-up in">
+    <div class="hero-time" id="meta-line">北京时间 --:-- · 日常模式</div>
+
+    <div class="sigil-wrap">
+      <div class="sigil"></div>
+    </div>
+
+    <div class="kicker">KIXS · 命术与占术</div>
+    <h1>答案藏在命盘里，<br><span class="accent">它正等待被你翻开。</span></h1>
+    <p class="sub">KiXs 为你保留一段安静的凝视。先安放问题，再让命盘回应此刻的能量与方向。</p>
+
+    <div style="margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn primary" onclick="location.href='tarot.html'">开启今日占卜</button>
+      <button class="btn ghost" onclick="AskPanel && AskPanel.open('common')">占卜小仪式</button>
+    </div>
+  </section>
+
+  <!-- 今日一签 · 3 句诗签 -->
+  <main class="wrap">
+    <section style="text-align:center;padding-top:14px;">
+      <h2 style="font-family:'STSong','Songti SC',serif;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:6px;">今日一签</h2>
+      <p style="font-size:13.5px;color:var(--ink-3);margin-bottom:8px;">三支签，对应你今天的三个侧面。</p>
+    </section>
+
+    <div class="omen-grid">
+      <div class="omen-card">
+        <div class="o-area">事业</div>
+        <div class="o-verse">先厘清优先级，再向外承诺。</div>
+        <div class="o-hint">下午适合处理需要耐心的细节，不宜急。</div>
+        <span class="o-seal">事业签</span>
+      </div>
+      <div class="omen-card">
+        <div class="o-area">关系</div>
+        <div class="o-verse">把猜测换成一句具体的询问。</div>
+        <div class="o-hint">你的直觉很准，但沉默不如开口。</div>
+        <span class="o-seal">关系签</span>
+      </div>
+      <div class="omen-card">
+        <div class="o-area">自我</div>
+        <div class="o-verse">放慢，让心重新安定。</div>
+        <div class="o-hint">散步、整理、写下感受，都是收拢自己的方式。</div>
+        <span class="o-seal">己身签</span>
+      </div>
+    </div>
+
+    <!-- 板块入口：命术 + 占术 -->
+    <section style="padding:24px 0 8px;">
+      <div class="kicker" style="font-family:'Avenir Next',sans-serif;font-size:11px;letter-spacing:4px;color:var(--accent);margin-bottom:8px;">路径</div>
+      <h2 style="font-family:'Avenir Next','PingFang SC',sans-serif;font-size:28px;font-weight:600;color:var(--ink);letter-spacing:1px;margin-bottom:6px;">让问题找到合适的方法</h2>
+      <p style="font-size:13.5px;color:var(--ink-2);">命术定格局，观一生之经纬；占术决当下，问一事之吉凶。</p>
+
+      <div class="grid grid-2" style="padding-top:20px;">
+        <a href="ming-shu.html" class="card entry" style="display:block;cursor:pointer;text-decoration:none;">
+          <div class="card-tag" style="font-family:'Avenir Next',sans-serif;font-size:11px;letter-spacing:4px;color:var(--accent-gold);margin-bottom:14px;">命术</div>
+          <h3 style="color:var(--ink);margin-bottom:10px;">八字 · 紫微 · 星盘</h3>
+          <p style="color:var(--ink-2);">从出生时辰看一生的格局与脉络，<br>告诉你「你是谁」与「可以走向哪里」。</p>
+          <div style="margin-top:18px;font-size:13px;color:var(--accent);letter-spacing:2px;">起命盘 →</div>
+        </a>
+        <a href="zhan-shu.html" class="card entry" style="display:block;cursor:pointer;text-decoration:none;">
+          <div class="card-tag" style="font-family:'Avenir Next',sans-serif;font-size:11px;letter-spacing:4px;color:var(--accent);margin-bottom:14px;">占术</div>
+          <h3 style="color:var(--ink);margin-bottom:10px;">塔罗 · 梅花 · 六爻 · 大六壬</h3>
+          <p style="color:var(--ink-2);">为当下之事起一卦、抽一牌，<br>问具体抉择、关系、时机与方向。</p>
+          <div style="margin-top:18px;font-size:13px;color:var(--accent);letter-spacing:2px;">去起卦 →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 师傅入口 -->
+    <section style="padding:30px 0 8px;">
+      <div class="kicker" style="font-family:'Avenir Next',sans-serif;font-size:11px;letter-spacing:4px;color:var(--accent);margin-bottom:8px;">问师</div>
+      <h2 style="font-family:'Avenir Next','PingFang SC',sans-serif;font-size:28px;font-weight:600;color:var(--ink);letter-spacing:1px;margin-bottom:6px;">选择一位陪伴你</h2>
+      <p style="font-size:13.5px;color:var(--ink-2);">排盘后，师傅会结合命盘为你一对一作答。</p>
+
+      <div class="grid grid-2" style="padding-top:20px;">
+        <div class="mentor-card west" onclick="AskPanel && AskPanel.open('astrology')">
+          <div class="mentor-avatar" id="avatar-west"></div>
+          <div class="m-name">月见</div>
+          <div class="m-title">占星师 · 夜观星象</div>
+          <div class="m-tags"><span>塔罗</span><span>星盘</span><span>合盘</span></div>
+          <span class="m-btn">找她问 →</span>
+        </div>
+        <div class="mentor-card east" onclick="AskPanel && AskPanel.open('bazi')">
+          <div class="mentor-avatar" id="avatar-east"></div>
+          <div class="m-name">玄机子</div>
+          <div class="m-title">玄学大师 · 深研命理</div>
+          <div class="m-tags"><span>八字</span><span>紫微</span><span>梅花</span><span>六爻</span><span>六壬</span></div>
+          <span class="m-btn">找他问 →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 我的入口 -->
+    <section style="padding:30px 0 40px;">
+      <a href="profile.html" class="card entry" style="display:flex;align-items:center;gap:16px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:grid;place-items:center;font-size:18px;color:#fff;font-weight:700;flex-shrink:0;">K</div>
+        <div style="flex:1;">
+          <div class="card-tag" style="font-family:'Avenir Next',sans-serif;font-size:10px;letter-spacing:3px;color:var(--accent);margin-bottom:4px;">我的</div>
+          <h3 style="color:var(--ink);font-size:16px;margin-bottom:2px;">寻心者</h3>
+          <p style="color:var(--ink-2);font-size:12px;">占卜记录 · 夜语设置 · 帮助反馈 · 个人中心</p>
+        </div>
+        <div style="color:var(--ink-3);font-size:18px;">›</div>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">KiXs · 命术定格局 · 占术决当下<br>夜间 22:00 – 03:00（北京时间）自动切换温和语气</footer>
+
+  <script src="tone-engine.js"></script>
+  <script src="knowledge-base.js"></script>
+  <script src="ask-panel.js"></script>
+  <script>
+    // 入场动画
+    document.querySelectorAll('.fade-up').forEach((el, i) => setTimeout(() => el.classList.add('in'), 80 * i));
+    // 夜语徽标 + 时间
+    function updateMetaLine() {
+      const now = new Date();
+      const t = now.toTimeString().slice(0, 5);
+      const el = document.getElementById('meta-line');
+      if (el) el.textContent = '北京时间 ' + t + (ToneEngine.isNight() ? ' · 夜语中' : ' · 日常模式');
+    }
+    updateMetaLine(); setInterval(updateMetaLine, 30000);
+    ToneEngine.applyBadge();
+    // 师傅头像（等 ask-panel 加载）
+    function fillMentor(w) {
+      var el = document.getElementById('avatar-' + (w ? 'west' : 'east'));
+      if (el && window.AskPanel && typeof AskPanel._avatarSvg === 'function') el.innerHTML = AskPanel._avatarSvg(w ? 'astrology' : 'bazi');
+    }
+    if (window.AskPanel) { fillMentor(true); fillMentor(false); }
+    else { window.addEventListener('load', function() { fillMentor(true); fillMentor(false); }); }
+  </script>
+
+  <!-- 底部 Tab Bar（与其他页面统一） -->
+  <nav class="bottom-tab" id="bottom-tab">
+    <a href="index.html" class="tab-item active" data-tab="home">
+      <span class="tab-icon">⌂</span>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="ming-shu.html" class="tab-item" data-tab="ming">
+      <span class="tab-icon">命</span>
+      <span class="tab-label">命术</span>
+    </a>
+    <a href="zhan-shu.html" class="tab-item" data-tab="zhan">
+      <span class="tab-icon">占</span>
+      <span class="tab-label">占术</span>
+    </a>
+    <a href="profile.html" class="tab-item" data-tab="profile">
+      <span class="tab-icon">我</span>
+      <span class="tab-label">我的</span>
+    </a>
+  </nav>
+<script src="delight.js"></script>
+</body>
+</html>

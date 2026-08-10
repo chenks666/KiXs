@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="liuren">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23110d18'/><text x='32' y='45' font-size='40' font-weight='800' text-anchor='middle' fill='%23d4af6e' font-family='Arial, sans-serif'>K</text></svg>">
+  <title>大六壬 — KiXs · 占术</title>
+  <link rel="stylesheet" href="../base.css">
+  <style>
+    .liuren-form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 720px) { .liuren-form { grid-template-columns: 1fr 1fr; } }
+    .chart-wrap { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+    .chart-svg { flex: 1; min-width: 300px; }
+    .chart-side { flex: 1; min-width: 260px; }
+    .ke-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .ke-cell { flex: 1; min-width: 120px; text-align: center; padding: 12px 8px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); }
+    .ke-cell .kt { font-size: 11px; color: var(--ink-3); letter-spacing: 2px; }
+    .ke-cell .kz { font-family: "STKaiti","KaiTi",serif; font-size: 22px; color: var(--accent); margin: 4px 0; }
+    .ke-cell .kq { font-size: 11px; color: var(--ink-2); }
+    .chuan-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+    .chuan-cell { min-width: 110px; text-align: center; padding: 12px 8px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 7%, var(--bg-2)); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); }
+    .chuan-cell .ct { font-size: 11px; color: var(--accent); letter-spacing: 2px; }
+    .chuan-cell .cz { font-family: "STKaiti","KaiTi",serif; font-size: 22px; color: var(--ink); margin: 4px 0; }
+    .chuan-cell .cjiang { font-size: 11px; color: var(--ink-2); }
+    .chuan-cell .cqin { font-size: 11px; color: var(--ink-3); }
+    .jiang-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .jiang-cell { font-size: 11px; text-align: center; padding: 6px 2px; border-radius: 8px; background: var(--bg-2); border: 1px solid var(--line); }
+    .jiang-cell b { color: var(--accent); font-weight: 600; display: block; font-size: 12px; }
+    .jiang-cell span { color: var(--ink-3); }
+    .prec-note { margin: 14px 0; padding: 12px 18px; border-radius: 12px; border: 1px dashed var(--danger); font-size: 12.5px; color: var(--ink-2); }
+  </style>
+</head>
+<body class="grain">
+  <div class="starfield"></div>
+
+  <header class="topbar">
+    <a class="logo" href="index.html"><span class="seal-mini">K</span>KiXs</a>
+    
+    <!-- 顶栏师傅：玄机子（中国体系） -->
+    <div class="topbar-mentors" id="topbar-mentors">
+      <div class="tb-mentor east" onclick="openTopbarMentor('bazi')" title="玄机子 · 玄学大师">
+        <span class="tb-avatar" id="tb-avatar-e"></span>
+      </div>
+    </div>
+    <nav class="nav">
+      <span class="crumb"><a href="zhan-shu.html">占术</a></span>
+      <a href="tarot.html">塔罗</a>
+      <a href="meihua.html">梅花</a>
+      <a href="liuyao.html">六爻</a>
+      <a href="liuren.html" class="active">六壬</a>
+      <span class="night-badge hidden"><span class="dot"></span><span class="label-text">夜语模式</span></span>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Da Liu Ren · 占术</div>
+    <h1>大六壬</h1>
+    <p class="sub">三式之首，月将加时、四课三传——以天地盘观「动静之机」。问事最利：当下之事、去留抉择、吉凶迟速，一课分明。</p>
+    <div class="meta-line" style="color:var(--danger);">精度说明：月将按节气中气近似换将；九宗门为演示简化（贼克/比用/遥克），完整九宗（涉害/昴星/别责/八专/伏吟/返吟）见专业排盘</div>
+  </section>
+
+  <main class="wrap">
+    <div class="reading">
+      <div class="label">起课 · 问事时间与所问</div>
+      <div class="liuren-form">
+        <div class="form-row">
+          <label>公历日期</label>
+          <input class="input" type="date" id="birth-date" max="2099-12-31">
+        </div>
+        <div class="form-row">
+          <label>时辰（起课以问事时刻为准）</label>
+          <select class="input" id="shichen">
+            <option value="午">午时 11:00–13:00</option>
+            <option value="子">子时 23:00–01:00</option>
+            <option value="丑">丑时 01:00–03:00</option>
+            <option value="寅">寅时 03:00–05:00</option>
+            <option value="卯">卯时 05:00–07:00</option>
+            <option value="辰">辰时 07:00–09:00</option>
+            <option value="巳">巳时 09:00–11:00</option>
+            <option value="未">未时 13:00–15:00</option>
+            <option value="申">申时 15:00–17:00</option>
+            <option value="酉">酉时 17:00–19:00</option>
+            <option value="戌">戌时 19:00–21:00</option>
+            <option value="亥">亥时 21:00–23:00</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>心中所问（可留空）</label>
+          <input class="input" id="question" placeholder="例如：这笔合作能不能成？">
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:6px;">
+        <button class="btn" id="btn-cast">起课断事</button>
+      </div>
+    </div>
+
+    <div id="result" style="display:none;"></div>
+  </main>
+
+  <div class="disclaimer">⚠️ 本回复由 AI 生成，大六壬为传统数术的象征推演，<b>仅供娱乐参考</b>。月将按节气近似换将、九宗门为简化版，专业起课请以完整排盘引擎为准。不构成医疗、法律、财务或投资建议。</div>
+
+  <footer class="footer">KiXs · 大六壬 — 月将加时 · 一课知机</footer>
+
+  <script src="../tone-engine.js"></script>
+  <script src="../liuren.js"></script>
+  <script>
+    const L = LiuRenEngine;
+    const HOUR_MID = { 子: 0, 丑: 2, 寅: 4, 卯: 6, 辰: 8, 巳: 10, 午: 12, 未: 14, 申: 16, 酉: 18, 戌: 20, 亥: 22 };
+
+    document.getElementById('btn-cast').onclick = () => {
+      const dateVal = document.getElementById('birth-date').value;
+      const sc = document.getElementById('shichen').value;
+      if (!dateVal || !sc) { alert('请选择日期与时辰。'); return; }
+      const d = new Date(dateVal + 'T12:00:00');
+      const r = L.cast(d.getFullYear(), d.getMonth() + 1, d.getDate(), HOUR_MID[sc]);
+      AskPanel.setChart({ result: r });
+      const question = document.getElementById('question').value.trim();
+      const el = document.getElementById('result');
+      el.style.display = 'block';
+      el.className = 'result-enter';
+
+      /* 天地盘 SVG：外圈地盘（固定），内圈天盘（月将加时） */
+      const cx = 210, cy = 210;
+      const posOf = (i, radius, degOffset = -90) => {
+        const a = (i * 30 + degOffset) * Math.PI / 180;
+        return { x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) };
+      };
+      const tianDisk = {};
+      L.ZHI.forEach((z, i) => { tianDisk[i] = r.tianPan[i]; });
+      const svg = `
+        <svg viewBox="0 0 420 420" style="width:100%;max-width:420px;">
+          <defs>
+            <radialGradient id="lr-disc" cx="50%" cy="42%">
+              <stop offset="0%" stop-color="#1c2a3e"/><stop offset="100%" stop-color="#0c1218"/>
+            </radialGradient>
+          </defs>
+          <circle cx="${cx}" cy="${cy}" r="195" fill="url(#lr-disc)" stroke="#2a3f55" stroke-width="1.5"/>
+          <circle cx="${cx}" cy="${cy}" r="150" fill="none" stroke="#2a3f55" stroke-width="1" stroke-dasharray="3 5"/>
+          <circle cx="${cx}" cy="${cy}" r="60" fill="none" stroke="#2a3f55" stroke-width="1"/>
+          ${L.ZHI.map((z, i) => {
+            const p1 = posOf(i, 195), p2 = posOf(i, 150);
+            return `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#2a3f55"/>`;
+          }).join('')}
+          ${L.ZHI.map((z, i) => {
+            const p = posOf(i, 173);
+            return `<text x="${p.x}" y="${p.y + 4}" font-size="12" fill="#6e7f94" text-anchor="middle">${z}</text>`;
+          }).join('')}
+          ${L.ZHI.map((z, i) => {
+            const p = posOf(i, 128);
+            const up = L.ZHI[tianDisk[i]];
+            const isChu = r.sanChuan[0] === tianDisk[i] && r.tianPan[r.sanChuan[0]] === tianDisk[i];
+            return `<text x="${p.x}" y="${p.y + 4}" font-size="12" fill="#c8a64a" text-anchor="middle" font-weight="${r.sanChuan.includes(tianDisk[i]) ? '700' : '400'}">${up}</text>`;
+          }).join('')}
+          ${L.ZHI.map((z, i) => {
+            const p = posOf(i, 128);
+            const up = L.ZHI[tianDisk[i]];
+            if (r.sanChuan.includes(tianDisk[i])) {
+              const mark = tianDisk[i] === r.sanChuan[0] ? '初' : tianDisk[i] === r.sanChuan[1] ? '中' : '末';
+              return `<circle cx="${p.x}" cy="${p.y - 18}" r="9" fill="rgba(200,166,74,0.2)" stroke="#c8a64a"/><text x="${p.x}" y="${p.y - 14}" font-size="9" fill="#c8a64a" text-anchor="middle">${mark}</text>`;
+            }
+            return '';
+          }).join('')}
+          <text x="${cx}" y="${cy + 4}" font-size="13" fill="#e6eef7" text-anchor="middle">月将 ${r.yueJiang}</text>
+          <text x="${cx}" y="${cy + 24}" font-size="10" fill="#6e7f94" text-anchor="middle">加${r.shiZhi}时 · ${r.dayGanzhi}日</text>
+          <text x="${cx}" y="${cy - 206}" font-size="11" fill="#6e7f94" text-anchor="middle">外盘地支 · 内盘天盘</text>
+        </svg>`;
+
+      const jiangMap = {};
+      L.ZHI.forEach((z, i) => { jiangMap[i] = r.tianJiang[i]; });
+      el.innerHTML = `
+        <div class="prec-note">⚠️ 演示简化课：月将按节气近似换将，九宗门取「${r.keType}」发用（完整九宗见专业排盘）。课体仅供参考。</div>
+        <div class="reading">
+          <div class="label">天地盘 · ${r.dateText}</div>
+          <div class="chart-wrap">
+            <div class="chart-svg">${svg}</div>
+            <div class="chart-side">
+              <div style="font-size:13px;color:var(--ink-2);margin-bottom:8px;">四课（干上·干阴·支上·支阴）</div>
+              <div class="ke-row">
+                ${r.siKe.map((z, i) => `
+                  <div class="ke-cell">
+                    <div class="kt">第${i + 1}课</div>
+                    <div class="kz">${L.ZHI[z]}</div>
+                    <div class="kq">${r.tianJiang[z] || ''}</div>
+                  </div>`).join('')}
+              </div>
+              <div style="font-size:13px;color:var(--ink-2);margin:14px 0 8px;">三传（${r.keType}发用）</div>
+              <div class="chuan-row">
+                ${r.sanChuan.map((z, i) => `
+                  <div class="chuan-cell">
+                    <div class="ct">${['初传', '中传', '末传'][i]}</div>
+                    <div class="cz">${L.ZHI[z]}</div>
+                    <div class="cjiang">${r.tianJiang[z] || ''}</div>
+                    <div class="cqin">${r.sanQin[i]}</div>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reading">
+          <div class="label">十二天将 · ${r.dayOrNight === 'day' ? '昼占' : '夜占'}（贵人${L.ZHI[r.guiRenZhi]}起${r.dayOrNight === 'day' ? '顺行' : '逆行'}）</div>
+          <div class="jiang-grid">
+            ${L.ZHI.map((z, i) => `<div class="jiang-cell"><b>${L.ZHI[i]}</b><span>${jiangMap[i]}</span></div>`).join('')}
+          </div>
+        </div>
+        <div class="reading">
+          <div class="label">断课</div>
+          <div class="txt">${L.interpret(r, question).replace(/\n/g, '<br>')}</div>
+        </div>
+        <div class="summary-box">
+          <div class="sum-title">三句点醒</div>
+          <ul>${L.summarize(r).map((p) => `<li>${p}</li>`).join('')}</ul>
+        </div>`;
+      el.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const today = new Date();
+    document.getElementById('birth-date').value =
+      today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+    ToneEngine.applyBadge();
+  </script>
+  <script src="../knowledge-base.js"></script>
+  <script src="../ask-panel.js"></script>
+  <script>AskPanel.init({ system: 'liuren', hint: '月将是什么' });</script>
+<script>
+/* 全局错误浮层（开发期调试：任何报错直接可见，避免"没反应/白屏"） */
+(function(){
+  var shown = false;
+  window.addEventListener("error", function(e){
+    if (shown) return; shown = true;
+    var d = document.createElement("div");
+    d.style.cssText = "position:fixed;left:12px;bottom:96px;z-index:99999;max-width:520px;max-height:60vh;overflow:auto;background:#2a1210;border:1px solid #c44a3c;color:#f2d8d4;font-size:11px;line-height:1.6;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);font-family:monospace;white-space:pre-wrap;word-break:break-all;";
+    var stack = (e.error && e.error.stack) ? e.error.stack : "";
+        d.textContent = "⚠ 脚本错误：" + (e.message || "unknown") + " | " + (e.filename || "") + ":" + (e.lineno || "") + (e.colno ? (":" + e.colno) : "") + (stack ? (" | " + stack) : "");
+        document.body.appendChild(d);
+  });
+})();
+</script>
+
+  <!-- iOS 风格底部 Tab Bar -->
+  <nav class="bottom-tab" id="bottom-tab">
+    <a href="index.html" class="tab-item" data-tab="home">
+      <span class="tab-icon">⌂</span>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="ming-shu.html" class="tab-item" data-tab="ming">
+      <span class="tab-icon">命</span>
+      <span class="tab-label">命术</span>
+    </a>
+    <a href="zhan-shu.html" class="tab-item" data-tab="zhan">
+      <span class="tab-icon">占</span>
+      <span class="tab-label">占术</span>
+    </a>
+    <a href="profile.html" class="tab-item" data-tab="profile">
+      <span class="tab-icon">我</span>
+      <span class="tab-label">我的</span>
+    </a>
+  </nav>
+  <script>
+    function openAskPanel() {
+      if (window.AskPanel && typeof window.AskPanel.toggle === 'function') {
+        window.AskPanel.toggle();
+      } else {
+        var s = document.createElement('script');
+        s.src = '../js/ask-panel.js';
+        s.onload = function() { if (window.AskPanel) window.AskPanel.toggle(); };
+        document.body.appendChild(s);
+      }
+    }
+    // 高亮当前页 tab
+    (function(){
+      try {
+        var path = location.pathname;
+        var fileName = path.split('/').pop();
+        var tabs = document.querySelectorAll('#bottom-tab .tab-item');
+        tabs.forEach(function(a){
+          if (a.href && fileName && a.href.indexOf(fileName) >= 0) {
+            tabs.forEach(function(x){ x.classList.remove('active'); });
+            a.classList.add('active');
+          }
+        });
+      } catch(e) {}
+    })();
+  </script>
+
+
+  <script>
+    function openTopbarMentor(system) {
+      if (window.AskPanel && typeof window.AskPanel.open === 'function') {
+        window.AskPanel.open(system);
+      } else {
+        var s = document.createElement('script');
+        s.src = '../js/ask-panel.js';
+        s.onload = function() { if (window.AskPanel) window.AskPanel.open(system); };
+        document.body.appendChild(s);
+      }
+    }
+    function renderTopbarAvatars() {
+      if (!window.AskPanel || !window.AskPanel._avatarSvg) return;
+      var w = document.getElementById('tb-avatar-w');
+      var e = document.getElementById('tb-avatar-e');
+      if (w) w.innerHTML = window.AskPanel._avatarSvg('astrology');
+      if (e) e.innerHTML = window.AskPanel._avatarSvg('bazi');
+    }
+    if (window.AskPanel) renderTopbarAvatars();
+    window.addEventListener('load', renderTopbarAvatars);
+  </script>
+<script src="../delight.js"></script>
+</body>
+</html>
