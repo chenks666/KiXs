@@ -1501,3 +1501,93 @@ html:not(.js) .rv { opacity: 1; transform: none; }
 
 /* 板块页 hero 副标题行距微调（更 Vesper 的疏朗） */
 .hero .sub { line-height: 1.85; }
+
+/* ============================================================
+   28. 移动端自适应强化（v13 · UI Designer）
+   统一断点：≤860 平板 / ≤720 大屏手机 / ≤560 手机 / ≤480 小屏
+   修复：chart 内联 min-width 溢出 / 四柱表与九宫降列 / 表单单列 / 触控尺寸
+   ============================================================ */
+
+/* 28.0 基础防溢出 */
+img, svg { max-width: 100%; height: auto; }
+pre, code { white-space: pre-wrap; word-break: break-word; }
+input, select, textarea, button { max-width: 100%; }
+
+/* 28.1 ≤860 平板 */
+@media (max-width: 860px) {
+  /* 九宫格 4列 → 3列（九宫 3×3 语义，内容更宽） */
+  .palace-grid { grid-template-columns: repeat(3, 1fr); }
+  /* 星盘/六壬图：压掉页面内联 min-width:300/260（手机必溢出） */
+  .chart-svg, .chart-side { min-width: 0 !important; max-width: 100%; }
+  /* 八字大运流年横条允许换行 */
+  .flow-row { flex-wrap: wrap; }
+  /* 六壬四课/三传横条换行 */
+  .ke-row, .chuan-row { flex-wrap: wrap; }
+}
+
+/* 28.2 ≤720 大屏手机 / 小平板 */
+@media (max-width: 720px) {
+  /* 星盘/六壬表单：覆盖页面内联 1fr 1fr → 单列 */
+  .chart-form { grid-template-columns: 1fr !important; }
+  .chart-svg, .chart-side { flex-basis: 100% !important; }
+  /* 四柱表 4列 → 2列 */
+  .pillar-table { grid-template-columns: repeat(2, 1fr); }
+  /* 页边距收敛 */
+  .wrap { padding: 0 16px; }
+  .topbar { padding: 10px 14px; }
+  .hero { padding: 42px 16px 26px; }
+  /* 塔罗幕布内容与解读区留白 */
+  .curtain-content, .reading { padding: 20px 16px; }
+  /* 底部 tab 触控友好 */
+  .bottom-tab { padding: 6px 4px max(6px, env(safe-area-inset-bottom)); }
+  .tab-item { padding: 6px 2px; gap: 2px; }
+  .tab-label { font-size: 9px; }
+  .tab-icon { font-size: 16px; }
+  .tab-icon-ask { width: 30px; height: 30px; font-size: 14px; margin-top: -10px; }
+  /* 牌阵选项两列 */
+  .spread-opt { flex: 1 1 calc(50% - 12px); }
+  /* 顶栏师傅头像缩小 */
+  .tb-mentor { width: 34px; height: 34px; }
+}
+
+/* 28.3 ≤560 手机 */
+@media (max-width: 560px) {
+  /* 九宫格保持 3 列（奇数格不错乱），缩间距 */
+  .palace-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  /* 四柱表 2 列收紧 */
+  .pillar-table { gap: 8px; padding: 14px 0; }
+  /* 标题收敛（覆盖 27.8 clamp min） */
+  .hero h1 { font-size: 28px; }
+  .hero .sub { font-size: 13px; }
+  /* 触控尺寸 */
+  .btn { min-height: 38px; padding: 8px 18px; font-size: 13.5px; }
+  .form-row { margin-bottom: 14px; }
+  .input, select.input, textarea.input { padding: 11px 12px; font-size: 14px; }
+  /* 塔罗牌更小 */
+  .tarot-card { width: 96px; }
+  .tarot-hand { gap: 12px; padding: 18px 0; }
+  /* 师傅卡片单列微调 */
+  .mentor-card { padding: 16px 12px; }
+  /* 首页签卡 */
+  .omen-card { padding: 18px 16px; }
+  /* 顶部导航允许横向滚动不溢出 */
+  .topbar .nav { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+  .topbar .nav::-webkit-scrollbar { display: none; }
+}
+
+/* 28.4 ≤480 小屏（iPhone SE / 折叠屏） */
+@media (max-width: 480px) {
+  .hero { padding: 36px 14px 22px; }
+  .hero h1 { font-size: 26px; }
+  .big-entry { padding: 26px 18px; }
+  .form-grid { gap: 10px; }
+  .curtain-content, .reading { padding: 18px 14px; }
+  .tab-label { font-size: 8.5px; }
+  .night-badge { font-size: 10px; padding: 3px 8px; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 28.5 减弱动效兼容 */
+@media (prefers-reduced-motion: reduce) {
+  .curtain { transition: none !important; }
+}
