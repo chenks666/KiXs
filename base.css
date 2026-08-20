@@ -1253,3 +1253,251 @@ body {
   60% { transform: rotate(0); }
 }
 @media (prefers-reduced-motion: reduce) { .shake-ic { animation: none; } }
+
+/* ============================================================
+   26. React 风格动效系统（v11 · UI Designer）
+   参考 react.dev：背景光晕 / 交错入场 / 滚动浮现 / 卡片微交互 / 光晕跟随
+   约束：无渐变文字 / 无毛玻璃 / 无旋转 / 交互 150-300ms / 入场 400-500ms
+   ============================================================ */
+
+/* ---- 26.1 背景光晕（aurora 慢呼吸）---- */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(720px 480px at 12% -4%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 68%),
+    radial-gradient(840px 560px at 92% 8%, color-mix(in srgb, var(--accent-2) 10%, transparent), transparent 70%),
+    radial-gradient(1000px 640px at 50% 108%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 75%);
+  animation: aurora 14s ease-in-out infinite alternate;
+}
+@keyframes aurora {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+.hero, main, .footer { position: relative; z-index: 1; }
+
+/* ---- 26.2 Hero 交错入场（stagger 70ms，由 motion.js 设 delay）---- */
+@keyframes rvHero {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero > * { animation: rvHero 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+
+/* ---- 26.3 滚动浮现（motion.js 标记 .rv + IntersectionObserver 加 .in）---- */
+html.js .rv {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+html.js .rv.in { opacity: 1; transform: none; }
+html:not(.js) .rv { opacity: 1; transform: none; }
+
+/* ---- 26.4 卡片微交互（React 招牌：上浮 + 边框亮起 + 光晕）---- */
+.card, .omen-card {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+.card:hover, .omen-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent),
+    0 16px 40px rgba(12, 9, 20, 0.5),
+    0 0 28px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* ---- 26.5 光晕跟随（spotlight：鼠标位置径向光斑，motion.js 设 --mx/--my）---- */
+.card::after, .omen-card::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 10%, transparent), transparent 68%);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.card:hover::after, .omen-card:hover::after { opacity: 1; }
+.omen-card { position: relative; overflow: hidden; }
+
+/* ---- 26.6 按钮微交互（hover 上浮 + 光晕 / 按压回缩）---- */
+.btn { transition: transform 0.18s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease, color 0.2s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(0.97); }
+.btn.primary:hover {
+  box-shadow:
+    0 6px 20px color-mix(in srgb, var(--accent-2) 38%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---- 26.7 顶栏导航 hover 平滑 ---- */
+.topbar .nav a { transition: color 0.2s ease, background-color 0.2s ease; }
+
+/* ---- 26.8 结果区入场（React 节奏：0.5s 缓出，替换原 0.8s）---- */
+.result-enter { animation: resultIn 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+@keyframes resultIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- 26.9 降级：系统减弱动效时全部禁用并保持可见 ---- */
+@media (prefers-reduced-motion: reduce) {
+  body::before, .hero > *, .result-enter { animation: none !important; }
+  html.js .rv, html.js .rv.in { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .card, .omen-card, .btn { transition: none !important; }
+  .card:hover, .omen-card:hover, .btn:hover { transform: none !important; box-shadow: none !important; }
+  .card::after, .omen-card::after { opacity: 0 !important; }
+}
+
+/* ============================================================
+   27. Vesper 液态金属 × 玄学器物（v12 · UI Designer）
+   融合 Vesper.ai 设计语言：金属渐变 / 光泽扫光 / 玻璃质感 / 光晕
+   约束：无 backdrop-filter 毛玻璃 / 无渐变文字 / 无旋转 / 无 emoji
+   全站生效，HTML 零改动
+   ============================================================ */
+
+/* ---- 27.1 按钮：金属渐变 + 光泽扫光（shine）---- */
+.btn::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.38) 48%, transparent 76%);
+  transform: translateX(-130%);
+  transition: transform 0.65s ease;
+}
+.btn:hover::after { transform: translateX(130%); }
+
+.btn.primary {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 84%, #ffffff) 0%,
+    var(--accent) 48%,
+    color-mix(in srgb, var(--accent) 72%, #000000) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 2px 10px var(--glow);
+}
+.btn.primary:hover {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 92%, #ffffff) 0%,
+    color-mix(in srgb, var(--accent) 90%, #ffffff) 48%,
+    color-mix(in srgb, var(--accent) 80%, #000000) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    0 4px 18px var(--glow),
+    0 0 24px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+.btn.ghost {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    color-mix(in srgb, #000000 32%, transparent) 50%,
+    color-mix(in srgb, var(--accent) 7%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.btn.ghost:hover {
+  border-color: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 0 18px var(--glow);
+}
+
+/* ---- 27.2 顶栏导航：液态金属胶囊（hover 浮现）---- */
+.topbar .nav a { position: relative; overflow: hidden; border-radius: 6px; }
+.topbar .nav a::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.14) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.topbar .nav a:hover { border-bottom-color: transparent; }
+.topbar .nav a:hover::after { transform: translateX(120%); }
+.topbar .nav a:hover {
+  background: linear-gradient(105deg,
+    color-mix(in srgb, var(--bg) 65%, #000000) 0%,
+    color-mix(in srgb, var(--panel) 55%, #000000) 48%,
+    color-mix(in srgb, var(--accent) 16%, var(--panel)) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 16px var(--glow);
+  color: var(--ink);
+}
+.topbar .nav a.active {
+  border-bottom-color: var(--accent);
+  box-shadow: 0 2px 12px -2px var(--glow);
+}
+
+/* ---- 27.3 卡片：顶部高光 + 金属质感 ---- */
+.card, .big-entry, .mentor-card, .section-card, .omen-card {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.055), var(--shadow-sm);
+}
+
+/* ---- 27.4 底部 Tab Bar：液态玻璃 + 激活发光 ---- */
+.bottom-tab {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, var(--panel)), var(--bg) 60%);
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.045);
+}
+.tab-item { transition: color 0.2s, background-color 0.2s, box-shadow 0.2s; }
+.tab-item:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); border-radius: 8px; }
+.tab-item.active { text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+.tab-item.active::before { box-shadow: 0 0 8px var(--glow); }
+
+/* ---- 27.5 输入框 focus 光晕 ---- */
+.input:focus {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0 16px var(--glow);
+}
+
+/* ---- 27.6 印章 / 徽章：微高光 ---- */
+.o-seal, .seal-mini, .card-tag { box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+
+/* ---- 27.7 减弱动效兼容 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .btn::after, .topbar .nav a::after { transition: none !important; transform: none !important; }
+}
+
+/* ============================================================
+   27.8 Vesper 静态化修正（v12.1）：特征肉眼可见，非 hover 才现
+   主按钮 → Vesper 白色金属 / 导航 → 默认液态金属胶囊 / 标题微放大
+   ============================================================ */
+
+/* 主按钮：Vesper 标志性白色金属（白→银渐变 + 黑字 + 扫光） */
+.btn.primary {
+  background: linear-gradient(180deg, #ffffff 0%, #e7e7e7 48%, #cfcfcf 100%);
+  color: #111111;
+  border-color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 2px 10px rgba(0,0,0,0.35);
+}
+.btn.primary:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 42%, #d5def2 100%);
+  border-color: #f2f6ff;
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 22px rgba(186,208,255,0.35), 0 8px 18px rgba(255,255,255,0.12);
+}
+
+/* 导航：默认液态金属胶囊（静态可见），hover 亮起 + 扫光 */
+.topbar .nav a {
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,0.14));
+  background: linear-gradient(105deg,
+    color-mix(in srgb, var(--bg) 50%, #000000) 0%,
+    color-mix(in srgb, var(--panel) 72%, #000000) 48%,
+    color-mix(in srgb, var(--accent) 12%, var(--panel)) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.topbar .nav a:hover {
+  background: linear-gradient(105deg,
+    color-mix(in srgb, var(--panel) 60%, #000000) 0%,
+    color-mix(in srgb, var(--panel) 50%, var(--accent)) 48%,
+    color-mix(in srgb, var(--accent) 30%, var(--panel)) 100%);
+  border-color: color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.2));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 0 18px var(--glow);
+  color: var(--ink);
+}
+.topbar .nav a.active {
+  background: linear-gradient(105deg,
+    color-mix(in srgb, var(--accent) 26%, var(--panel)) 0%,
+    color-mix(in srgb, var(--accent) 10%, var(--bg)) 100%);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 50%, rgba(255,255,255,0.18));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 0 16px var(--glow);
+}
+
+/* Hero 标题：Vesper 大标题感（微放大幅面） */
+.hero h1 { font-size: clamp(32px, 5.2vw, 52px); }
+
+/* 板块页 hero 副标题行距微调（更 Vesper 的疏朗） */
+.hero .sub { line-height: 1.85; }
