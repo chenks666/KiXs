@@ -11,12 +11,39 @@
     .num-input { display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
     .num-input .field { text-align: center; }
     .num-input input {
-      width: 90px; height: 90px; text-align: center; font-size: 32px;
-      font-family: "STKaiti","KaiTi",serif; border-radius: 50%;
+      width: 92px; height: 92px;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 40px; font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+      line-height: 1; padding: 0;
+      border-radius: 50%;
       border: 1.5px solid var(--line); background: var(--panel);
       color: var(--ink); outline: none;
+      caret-color: var(--accent);
+      transition: border-color .2s, box-shadow .2s, transform .15s, background-color .2s;
     }
-    .num-input input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow); }
+    .num-input input::placeholder {
+      color: color-mix(in srgb, var(--accent) 30%, transparent);
+      font-weight: 300; font-size: 36px;
+    }
+    .num-input input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+      transform: scale(1.04);
+    }
+    .num-input input.filled {
+      background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    }
+    .num-input input.filled:focus {
+      transform: none;
+    }
+    /* 移除浏览器数字 spinner 兜底（已用 type=text，无 spinner） */
+    .num-input input::-webkit-outer-spin-button,
+    .num-input input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .num-input .tip { font-size: 12px; color: var(--ink-3); margin-top: 8px; }
     .gua-duo { display: flex; gap: 34px; justify-content: center; flex-wrap: wrap; padding: 18px 0; }
     .gua-unit { text-align: center; min-width: 110px; }
@@ -71,9 +98,9 @@
         <input class="input" id="question" placeholder="例如：近期搬家是否顺利？">
       </div>
       <div class="num-input">
-        <div class="field"><input id="n1" type="number" min="1" max="9" value=""><div class="tip">上卦之数</div></div>
-        <div class="field"><input id="n2" type="number" min="1" max="9" value=""><div class="tip">下卦之数</div></div>
-        <div class="field"><input id="n3" type="number" min="1" max="9" value=""><div class="tip">动爻之数</div></div>
+        <div class="field"><input id="n1" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="·"><div class="tip">上卦之数</div></div>
+        <div class="field"><input id="n2" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="·"><div class="tip">下卦之数</div></div>
+        <div class="field"><input id="n3" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="·"><div class="tip">动爻之数</div></div>
       </div>
       <div style="text-align:center;margin-top:22px;">
         <button class="btn" id="btn-cast">起卦</button>
@@ -90,6 +117,50 @@
   <script src="tone-engine.js"></script>
   <script src="hexagram-data.js"></script>
   <script src="meihua.js"></script>
+  <script>
+    /* iOS 数字输入 · v14.2：自动跳格 / 全选 / 回退 / 1-9 限制 */
+    (function () {
+      var inputs = ['n1', 'n2', 'n3'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+      if (!inputs.length) return;
+      var btn = document.getElementById('btn-cast');
+      inputs.forEach(function (inp, i) {
+        /* 点击 / focus 全选（方便覆盖重输） */
+        var selectAll = function () { setTimeout(function () { try { inp.select(); } catch (e) {} }, 0); };
+        inp.addEventListener('focus', selectAll);
+        inp.addEventListener('click', selectAll);
+        /* 防御：阻止非数字键（保留 1-9 + Backspace + Tab + 方向键） */
+        inp.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && !inp.value && i > 0) {
+            e.preventDefault();
+            inputs[i - 1].focus();
+            return;
+          }
+          if (/^[0a-zA-Z`~!@#\$%\^&\*\(\)\-_=\+\[\]\{\}\\|;:'",\.<>/?]$/.test(e.key)) {
+            e.preventDefault();
+          }
+        });
+        /* 输入处理：只留 1 位 1-9 数字 → 跳到下一框 */
+        inp.addEventListener('input', function () {
+          var v = inp.value.replace(/[^1-9]/g, '').slice(0, 1);
+          inp.value = v;
+          inp.classList.toggle('filled', !!v);
+          if (v && i < inputs.length - 1) {
+            inputs[i + 1].focus();
+          }
+          /* 三数齐全 → 聚焦起卦按钮 */
+          if (inputs.every(function (x) { return x.value; }) && btn) {
+            setTimeout(function () { btn.focus(); }, 120);
+          }
+        });
+        /* 粘贴拦截：只取第一位的 1-9 */
+        inp.addEventListener('paste', function (e) {
+          e.preventDefault();
+          var txt = (e.clipboardData || window.clipboardData).getData('text').replace(/[^1-9]/g, '').slice(0, 1);
+          if (txt) { inp.value = txt; inp.dispatchEvent(new Event('input')); }
+        });
+      });
+    })();
+  </script>
   <script>
     /* 渲染卦象（lines 从下往上） */
     function guaHtml(lines, dongYao) {

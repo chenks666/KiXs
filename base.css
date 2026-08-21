@@ -1591,3 +1591,236 @@ input, select, textarea, button { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .curtain { transition: none !important; }
 }
+
+/* ============================================================
+   29. 学术古典风全站覆盖（v14 · UI Designer）
+   参考 GemDesign「学术古典」：羊皮纸底 / 墨色文字 / 衬线字体
+   朱砂印章点缀 / 古籍线框 / 方角小圆角 / 全主题统一
+   覆盖此前的深色主题与液态金属样式
+   ============================================================ */
+
+/* ---- 29.0 主题 token：全部统一羊皮纸古籍体系 ---- */
+:root,
+[data-theme="pavilion"] {
+  --bg: #f2ead9; --bg-2: #eae0cb; --bg-3: #e0d4ba;
+  --panel: #f8f2e4;
+  --ink: #2f2921; --ink-2: #5c5244; --ink-3: #948873;
+  --accent: #b03a2e; --accent-bright: #c85a48; --accent-2: #7d2a22;
+  --accent-gold: #a8842c;
+  --line: rgba(47, 41, 33, 0.16);
+  --glow: rgba(176, 58, 46, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --radius: 6px; --radius-lg: 10px; --radius-sm: 2px;
+  --shadow-sm: 0 1px 2px rgba(80, 60, 40, 0.08);
+  --shadow-md: 0 4px 14px rgba(80, 60, 40, 0.12);
+  --shadow-lg: 0 12px 32px rgba(80, 60, 40, 0.16);
+  --shadow: var(--shadow-md);
+}
+[data-theme="ming"] {
+  --bg: #f1ecdd; --bg-2: #e8e1cc; --panel: #f7f2e4;
+  --ink: #2e2a22; --ink-2: #5a5444; --ink-3: #928a74;
+  --accent: #8a6d3b; --accent-2: #6b8f7a; --accent-gold: #a8842c;
+  --line: rgba(62, 54, 38, 0.16); --glow: rgba(138, 109, 59, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(80, 60, 40, 0.12);
+}
+[data-theme="zhan"] {
+  --bg: #f3ecd9; --bg-2: #ebe2c9; --panel: #f8f2e2;
+  --ink: #302920; --ink-2: #5d5240; --ink-3: #968a72;
+  --accent: #9a5b2e; --accent-2: #6e4a2a;
+  --line: rgba(62, 50, 34, 0.16); --glow: rgba(154, 91, 46, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(80, 60, 40, 0.12);
+}
+[data-theme="tarot"] {
+  --bg: #f0eadb; --bg-2: #e7dfc9; --panel: #f7f1e3;
+  --ink: #2f2921; --ink-2: #5a5144; --ink-3: #92876f;
+  --accent: #4a5a8a; --accent-2: #6a4a8a;   /* 靛蓝 × 藏紫 */
+  --line: rgba(47, 46, 60, 0.16); --glow: rgba(74, 90, 138, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(70, 60, 40, 0.12);
+}
+[data-theme="ziwei"] {
+  --bg: #f0ecd9; --bg-2: #e6e2ca; --panel: #f7f3e3;
+  --ink: #2c2c26; --ink-2: #56594a; --ink-3: #8f9478;
+  --accent: #4a7a6a; --accent-2: #8a7a3a;   /* 星青 × 青金 */
+  --line: rgba(46, 66, 56, 0.16); --glow: rgba(74, 122, 106, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(60, 70, 50, 0.12);
+}
+[data-theme="astrology"] {
+  --bg: #eef0e8; --bg-2: #e4e7d8; --panel: #f5f6ee;
+  --ink: #2b2d2a; --ink-2: #545c52; --ink-3: #8d9688;
+  --accent: #4a6a9a; --accent-2: #8a7a3a;   /* 天文蓝 × 星金 */
+  --line: rgba(46, 58, 80, 0.16); --glow: rgba(74, 106, 154, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(60, 60, 70, 0.12);
+}
+[data-theme="liuyao"] {
+  --bg: #f4ecd9; --bg-2: #ece1c8; --panel: #f8f2e2;
+  --ink: #2f2820; --ink-2: #5c5040; --ink-3: #978a70;
+  --accent: #b03a2e; --accent-2: #8a6d3b;   /* 朱砂 × 竹简金 */
+  --line: rgba(60, 46, 34, 0.16); --glow: rgba(176, 58, 46, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(80, 60, 40, 0.12);
+}
+[data-theme="liuren"] {
+  --bg: #f1ecdd; --bg-2: #e8e2cd; --panel: #f7f3e4;
+  --ink: #2e2c26; --ink-2: #59584a; --ink-3: #92927a;
+  --accent: #8a6d3b; --accent-2: #4a6a8a;   /* 古铜 × 藏蓝 */
+  --line: rgba(58, 52, 38, 0.16); --glow: rgba(138, 109, 59, 0.10);
+  --danger: #a84030; --safe: #4a6a52;
+  --shadow: 0 6px 18px rgba(80, 60, 40, 0.12);
+}
+
+/* ---- 29.1 背景：纸张化 ---- */
+/* 星点背景全部隐藏（纸上不落星，统一为水墨/水印质感） */
+.starfield { display: none !important; }
+/* 背景光晕改淡暖光（覆盖 V11 aurora 与 body 渐变） */
+body {
+  background:
+    radial-gradient(900px 480px at 50% -10%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 70%),
+    var(--bg) !important;
+  font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Georgia", serif;
+}
+body::before {
+  background:
+    radial-gradient(720px 480px at 12% -4%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 68%),
+    radial-gradient(840px 560px at 92% 8%, color-mix(in srgb, var(--accent-2) 6%, transparent), transparent 70%),
+    radial-gradient(1000px 640px at 50% 108%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 75%);
+  animation: none; opacity: 1;
+}
+/* 纸张纤维噪点强化（已有 grain 保留） */
+
+/* ---- 29.2 字体衬线化 ---- */
+.btn, .tab-item, .tab-label, .input, select.input, textarea.input,
+.topbar .logo, .kicker, .card-tag, .m-name, .mentor-card .m-title,
+.ask-content h3, .ask-arrow, .profile-label {
+  font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", serif;
+}
+.hero .kicker, .kicker, .card-tag { letter-spacing: 3px; }
+.hero h1 { letter-spacing: 0.02em; }
+
+/* ---- 29.3 按钮：朱砂印章式（覆盖 V12 白色金属）---- */
+.btn.primary {
+  background: linear-gradient(180deg, #b83a2e 0%, #a02e24 48%, #7d2a22 100%);
+  color: #f8f2e4;
+  border-color: #7d2a22;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 2px 8px rgba(125, 42, 34, 0.25);
+}
+.btn.primary:hover {
+  background: linear-gradient(180deg, #c84a3e 0%, #b03a2e 48%, #8a2c22 100%);
+  border-color: #7d2a22;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 4px 14px rgba(176, 58, 46, 0.3);
+}
+.btn.ghost {
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* ---- 29.4 顶栏导航：古典细线框（覆盖 V12 金属胶囊）---- */
+.topbar {
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .nav a {
+  border: 1px solid transparent;
+  background: none;
+  box-shadow: none;
+}
+.topbar .nav a:hover {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: none;
+  color: var(--accent);
+}
+.topbar .nav a.active {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: none;
+}
+
+/* ---- 29.5 卡片：古籍线框 ---- */
+.card, .big-entry, .mentor-card, .section-card, .omen-card {
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, var(--shadow-sm);
+}
+.card:hover, .big-entry:hover, .mentor-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 26px rgba(80, 60, 40, 0.14), 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.omen-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 26px rgba(80, 60, 40, 0.14);
+}
+
+/* ---- 29.6 底部 Tab Bar：纸色条（覆盖 V12 液态玻璃）---- */
+.bottom-tab {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel) 85%, var(--bg)), var(--bg));
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.5);
+}
+.tab-item.active { text-shadow: none; }
+.tab-item.active::before { box-shadow: none; }
+
+/* ---- 29.7 塔罗幕布：纸织锦（覆盖深色绒布）---- */
+.curtain {
+  background:
+    radial-gradient(320px 200px at 50% 28%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 75%),
+    repeating-linear-gradient(90deg, rgba(47, 41, 33, 0.025) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, #e9dec6, #dccdb0);
+  border: 1px solid rgba(47, 41, 33, 0.18);
+}
+
+/* ---- 29.8 塔罗牌背：古典菱形花纹（覆盖深色条纹）---- */
+.tarot-card .back {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 8px, rgba(74, 90, 138, 0.08) 8px 16px),
+    repeating-linear-gradient(-45deg, transparent 0 8px, rgba(74, 90, 138, 0.08) 8px 16px),
+    linear-gradient(160deg, #e6dcc2, #d9cba8);
+}
+.tarot-card .back::before {
+  content: "✶";
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* ---- 29.9 夜语徽标 / 印章 ---- */
+.night-badge {
+  color: #b03a2e;
+  background: rgba(176, 58, 46, 0.07);
+  border-color: rgba(176, 58, 46, 0.28);
+}
+.night-badge .dot { background: #b03a2e; }
+.o-seal { border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--accent); }
+
+/* ---- 29.10 流星雨：深色流星（浅底可见）---- */
+.meteor {
+  background: linear-gradient(90deg, rgba(122, 90, 58, 0.9), rgba(122, 90, 58, 0.3) 60%, transparent);
+  filter: drop-shadow(0 0 5px rgba(122, 90, 58, 0.5));
+}
+
+/* ---- 29.11 首页魔法阵：纸上淡朱（覆盖 index 内联）---- */
+.sigil { border-color: color-mix(in srgb, var(--accent) 35%, transparent) !important; }
+.sigil::before { border-color: color-mix(in srgb, var(--accent) 25%, transparent) !important; }
+.sigil::after { color: var(--accent) !important; }
+
+/* ---- 29.12 印章按钮落印适配 ---- */
+.btn-ink { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+/* ---- 29.13 减弱动效兼容 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .curtain, .meteor { animation: none !important; }
+}
+
+/* ============================================================
+   30. iOS 数字输入模板兜底（v14.2）
+   任何 type=number 全局去 spinner；iOS 风格数字字形
+   ============================================================ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+input[type="number"]:hover, input[type="number"]:focus { -moz-appearance: textfield; }
